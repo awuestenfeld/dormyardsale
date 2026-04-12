@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 68px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -740,7 +740,9 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo" onclick="showHome()">Dorm<span>YardSale</span></div>
+  <div class="logo" onclick="showHome()" style="font-family:inherit">
+    <img src="logo.png" alt="Dorm Yard Sale" style="height:36px;width:auto;display:block">
+  </div>
   <div class="nav-actions" id="navActions">
     <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
     <button class="btn-nav btn-primary" onclick="requireAuth()">🏷️ List Item</button>
@@ -855,8 +857,7 @@
   <div class="modal" style="max-width:440px">
     <button class="modal-close" onclick="closeAuth()">✕</button>
     <div style="text-align:center;margin-bottom:1.2rem">
-      <div style="font-size:2rem">🏷️</div>
-      <h2 style="margin-top:0.4rem">Dorm Yard Sale</h2>
+      <img src="logo.png" alt="Dorm Yard Sale" style="height:40px;width:auto;margin:0 auto">
     </div>
     <div class="auth-tabs">
       <button class="auth-tab active" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
