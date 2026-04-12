@@ -20,6 +20,14 @@
 <meta name="twitter:title" content="Dorm Yard Sale">
 <meta name="twitter:description" content="Buy & sell dorm furniture at your college. Free, always.">
 <meta name="twitter:image" content="https://dormyardsale.com/preview.png">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F52SHPNXMY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-F52SHPNXMY');
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1509,7 +1517,7 @@ async function sendContactMessage() {
   const btn = document.querySelector('#contactModal .btn-submit');
   btn.textContent = 'Sending…'; btn.disabled = true;
 
-  const res = await fetch('/.netlify/functions/contact', {
+  const res = await fetch('/functions/contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
