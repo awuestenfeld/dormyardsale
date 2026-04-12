@@ -1816,6 +1816,17 @@ async function submitListing() {
   selectedFiles = [];
   renderImagePreviews();
   ['sellTitle','sellPrice','sellOriginal','sellDesc'].forEach(id => document.getElementById(id).value = '');
+
+  // Notify admin of new listing (fire and forget)
+  fetch('/functions/new-listing', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title, price, college, state, category, condition, description,
+      sellerEmail: currentUser.email
+    })
+  }).catch(e => console.log('Notification failed silently', e));
+
   await Promise.all([fetchStateCounts(), fetchHeroStats()]);
   renderStates();
   await fetchListings();
