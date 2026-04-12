@@ -810,6 +810,158 @@
   }
   .btn-delete:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
 
+  /* LISTING DETAIL */
+  .detail-page {
+    display: none;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .detail-page.open { display: block; }
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.15s;
+  }
+  .detail-back:hover { color: var(--accent); }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .detail-img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+    background: var(--tag-bg);
+  }
+  .detail-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    background: var(--tag-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+  }
+  .detail-school {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+  .detail-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .detail-price-original {
+    font-size: 1rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+    font-weight: 400;
+  }
+  .detail-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+  .detail-badge {
+    background: var(--tag-bg);
+    border-radius: 100px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .detail-desc {
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 1.2rem 0;
+    white-space: pre-wrap;
+  }
+  .detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .btn-contact-large {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-contact-large:hover { background: #be5568; }
+  .btn-sold {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-sold:hover { background: #f0fdf4; color: #16a34a; border-color: #16a34a; }
+  .btn-amazon-large {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff8f0;
+    color: #c45500;
+    border: 1px solid #f5d9b8;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: all 0.15s;
+  }
+  .btn-amazon-large:hover { background: #fff3e6; border-color: #c45500; }
+  @media (max-width: 768px) {
+    .detail-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .detail-title { font-size: 1.5rem; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
@@ -878,8 +1030,31 @@
   </div>
 </div>
 
+<!-- LISTING DETAIL PAGE -->
+<div class="detail-page" id="detailPage">
+  <button class="detail-back" onclick="closeDetail()">← Back to listings</button>
+  <div class="detail-grid">
+    <div id="detailImage"></div>
+    <div>
+      <div class="detail-school" id="detailSchool"></div>
+      <div class="detail-title" id="detailTitle"></div>
+      <div>
+        <span class="detail-price" id="detailPrice"></span>
+        <span class="detail-price-original" id="detailOriginal"></span>
+      </div>
+      <div class="detail-badges" id="detailBadges"></div>
+      <div class="detail-desc" id="detailDesc"></div>
+      <div class="detail-actions">
+        <button class="btn-contact-large" id="detailContactBtn">📬 Contact Seller</button>
+        <div id="detailSoldBtn"></div>
+        <a class="btn-amazon-large" id="detailAmazonBtn" target="_blank" rel="noopener">🛒 Shop similar items new on Amazon</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN -->
-<div class="main-layout">
+<div class="main-layout" id="mainLayout">
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-section">
@@ -1832,7 +2007,68 @@ function toggleFav(id, el) {
 function viewListing(id) {
   const l = currentListings.find(x => x.id === id);
   if (!l) return;
-  alert(`📋 ${l.title}\n\n💰 Price: $${l.price}${l.original_price ? ' (was $'+l.original_price+')' : ''}\n🏫 ${l.college}, ${l.state}\n📦 ${l.category}\n✅ ${l.condition}${l.description ? '\n\n'+l.description : ''}${l.contact ? '\n\n📬 Contact: '+l.contact : ''}`);
+  const catIcons = { "Beds & Frames":"🛏️","Desks & Chairs":"🪑","Storage":"📦","Lighting":"💡","Mini-Fridges":"🧊","Rugs & Décor":"🪴","Electronics":"💻","Other":"📎" };
+
+  // Populate detail page
+  document.getElementById('detailSchool').textContent = `${l.college || ''} · ${l.state || ''}`;
+  document.getElementById('detailTitle').textContent = l.title;
+  document.getElementById('detailPrice').textContent = `$${l.price}`;
+  document.getElementById('detailOriginal').textContent = l.original_price ? `$${l.original_price}` : '';
+  document.getElementById('detailDesc').textContent = l.description || 'No description provided.';
+
+  // Image
+  const imgEl = document.getElementById('detailImage');
+  imgEl.innerHTML = l.image_url
+    ? `<img class="detail-img" src="${l.image_url}" alt="${l.title}">`
+    : `<div class="detail-img-placeholder">${catIcons[l.category] || '📦'}</div>`;
+
+  // Badges
+  document.getElementById('detailBadges').innerHTML = `
+    <span class="detail-badge">${conditionDot(l.condition)} ${l.condition || ''}</span>
+    <span class="detail-badge">📦 ${l.category || ''}</span>
+    <span class="detail-badge">🕐 ${timeAgo(l.created_at)}</span>
+  `;
+
+  // Contact button
+  const contactBtn = document.getElementById('detailContactBtn');
+  contactBtn.onclick = () => openContact(l.id);
+
+  // Sold button — only show to the listing owner
+  const soldDiv = document.getElementById('detailSoldBtn');
+  if (currentUser && currentUser.id === l.user_id) {
+    soldDiv.innerHTML = `<button class="btn-sold" onclick="markSold('${l.id}')">✅ Mark as Sold</button>`;
+  } else {
+    soldDiv.innerHTML = '';
+  }
+
+  // Amazon link
+  const amazonBtn = document.getElementById('detailAmazonBtn');
+  amazonBtn.href = amazonLinks[l.category] || `https://www.amazon.com/s?k=dorm+room+essentials&tag=${AFFILIATE_TAG}`;
+
+  // Show detail, hide main
+  document.getElementById('detailPage').classList.add('open');
+  document.getElementById('mainLayout').style.display = 'none';
+  document.getElementById('heroSection').style.display = 'none';
+  document.querySelector('.marquee-bar').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+function closeDetail() {
+  document.getElementById('detailPage').classList.remove('open');
+  document.getElementById('mainLayout').style.display = '';
+  document.getElementById('heroSection').style.display = '';
+  document.querySelector('.marquee-bar').style.display = '';
+}
+
+async function markSold(id) {
+  if (!confirm('Mark this item as sold? It will be removed from listings.')) return;
+  const { error } = await db.from('listings').delete().eq('id', id).eq('user_id', currentUser.id);
+  if (error) { showToast('❌ Could not mark as sold'); return; }
+  showToast('✅ Marked as sold!');
+  closeDetail();
+  await Promise.all([fetchStateCounts(), fetchHeroStats()]);
+  renderStates();
+  await fetchListings();
 }
 
 async function doSearch() {
@@ -1899,6 +2135,7 @@ function showToast(msg) {
 }
 
 async function showHome() {
+  closeDetail();
   activeState = null; activeCollege = null; activeCategory = null;
   renderStates(); renderCategories(); updateBreadcrumb();
   showLoading(true);
