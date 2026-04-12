@@ -17,6 +17,7 @@ exports.handler = async (event) => {
     await resend.emails.send({
       from: 'Dorm Yard Sale <noreply@dormyardsale.com>',
       to: sellerEmail,
+      reply_to: buyerEmail,
       subject: `Someone is interested in your listing: ${listingTitle}`,
       html: `
         <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
