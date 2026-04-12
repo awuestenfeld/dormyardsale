@@ -1318,12 +1318,14 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 // ── SUPABASE ──────────────────────────────────────────────
 const SUPABASE_URL = 'https://htmnblyjzlsdzogthshp.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bW5ibHlqemxzZHpvZ3Roc2hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NDA5NTEsImV4cCI6MjA5MTUxNjk1MX0.-_gXPeckUh4Bp9RmPuxKpg4Tz7NKkeq2olcWUxFItNE';
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ── STATIC DATA ───────────────────────────────────────────
 const statesData = {
@@ -2189,7 +2191,7 @@ function openLegal(type) {
     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">Last updated: April 2025</p>
 
     <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>1. Acceptance of Terms</strong><br>
-    By using Dorm Yard Sale ("the Site"), you agree to these Terms of Service. If you do not agree, please do not use the Site.</p>
+    By using Dorm Yard Sale (the Site), you agree to these Terms of Service. If you do not agree, please do not use the Site.</p>
 
     <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>2. Who Can Use the Site</strong><br>
     Dorm Yard Sale is open to college students, parents, and families associated with a college or university. You must be at least 13 years old to create an account.</p>
@@ -2273,6 +2275,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+init();
+</script>
+
 <!-- FOOTER -->
 <footer style="background:#fff;border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:3rem">
   <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.75rem">
@@ -2300,7 +2305,5 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-init();
-</script>
 </body>
 </html>
