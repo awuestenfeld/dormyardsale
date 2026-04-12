@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Dorm Yard Sale — Buy & Sell at Your College</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html { filter: none !important; }
+    body, nav, .sidebar, .main-layout, .content, .listing-card,
+    .modal, .breadcrumb, .hero, .marquee-bar, .hero-search,
+    aside, main, div, ul, li, input, select, textarea, button {
+      color-scheme: light;
+    }
+  }
+
+  html {
+    background: #fffaf8;
+  }
+
+  :root {
+    --ink: #3d2c2c;
+    --cream: #fffaf8;
+    --warm: #fff5f2;
+    --accent: #d4687a;
+    --accent-light: #fde8ec;
+    --accent2: #c0785a;
+    --accent3: #9b6ea0;
+    --muted: #b09090;
+    --border: #f0ddd8;
+    --card-bg: #ffffff;
+    --tag-bg: #fdf0ed;
+    --nav-bg: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fffaf8 !important;
+    color: #3d2c2c !important;
+    min-height: 100vh;
+    color-scheme: light;
+  }
+
+  /* NAV */
+  nav {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.45rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+    cursor: pointer;
+  }
+  .logo span { color: var(--accent); }
+  .nav-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-nav {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #ad5059; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #fff0f3 0%, #fde8ec 40%, #fdf0e8 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 500px 350px at 15% 60%, rgba(212,104,122,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 300px at 85% 40%, rgba(155,110,160,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    position: relative;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    position: relative;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .hero-search {
+    display: flex;
+    gap: 0;
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(212,104,122,0.1);
+  }
+  .hero-search input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .hero-search input::placeholder { color: var(--muted); }
+  .hero-search button {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .hero-search button:hover { background: #be5568; }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    position: relative;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* MAIN */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    background: #fffaf8;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    padding-right: 2rem;
+    background: #fffaf8;
+  }
+  .sidebar-section { margin-bottom: 2rem; }
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .state-list { list-style: none; }
+  .state-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.92rem;
+  }
+  .state-item:hover, .state-item.active {
+    background: var(--tag-bg);
+  }
+  .state-item.active {
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .state-count {
+    background: var(--tag-bg);
+    border-radius: 100px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .state-item.active .state-count {
+    background: rgba(232,74,47,0.12);
+    color: var(--accent);
+  }
+
+  .college-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .college-chip {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink);
+  }
+  .college-chip:hover, .college-chip.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .cat-btn {
+    background: var(--tag-bg);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.3;
+  }
+  .cat-btn .cat-icon { font-size: 1.3rem; display: block; margin-bottom: 0.2rem; }
+  .cat-btn:hover, .cat-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  /* CONTENT */
+  .content { min-width: 0; }
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .content-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+  .content-subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.15rem; }
+  .sort-row { display: flex; gap: 0.5rem; align-items: center; }
+  .sort-select {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    padding: 0.4rem 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    color: var(--ink);
+  }
+  .btn-sell {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+  }
+  .btn-sell:hover { background: #ad5059; }
+
+  /* LISTINGS */
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  .listing-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .listing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  }
+  .card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--tag-bg);
+  }
+  .card-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #ccc;
+  }
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+  .card-badge.new { background: var(--accent3); }
+  .card-badge.hot { background: var(--accent); }
+  .card-fav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .card-fav:hover { transform: scale(1.2); }
+  .card-body { padding: 0.9rem 1rem 1rem; }
+  .card-school {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.3rem;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .card-condition {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--ink);
+  }
+  .card-price-original {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 0.3rem;
+    font-weight: 400;
+  }
+  .card-time { font-size: 0.75rem; color: var(--muted); }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    padding: 0.8rem 1rem;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .breadcrumb span { color: var(--ink); font-weight: 500; }
+  .breadcrumb .sep { color: var(--border); }
+
+  /* SELL MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(61,44,44,0.2);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: var(--tag-bg);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.4rem;
+  }
+  .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: #ad5059; }
+
+  /* TOASTS */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 300;
+    animation: fadeInUp 0.3s ease forwards;
+    display: none;
+  }
+  .toast.show { display: block; }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .marquee-bar {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 28s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item { display: inline; margin: 0 2rem; }
+  .pagination {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .page-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .page-btn:hover:not(.active) { border-color: var(--ink); }
+
+  /* AUTH MODAL */
+  .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .auth-tab {
+    flex: 1; padding: 0.7rem; text-align: center;
+    font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent;
+    transition: all 0.2s; background: none; border-left: none; border-right: none; border-top: none;
+  }
+  .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .auth-divider {
+    text-align: center; font-size: 0.8rem; color: var(--muted);
+    margin: 1rem 0; position: relative;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; position: absolute; top: 50%; width: 40%; height: 1px;
+    background: var(--border);
+  }
+  .auth-divider::before { left: 0; }
+  .auth-divider::after { right: 0; }
+  .edu-note {
+    background: var(--accent-light); border-radius: 8px;
+    padding: 0.6rem 0.8rem; font-size: 0.8rem; color: var(--accent);
+    margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem;
+  }
+  .nav-user {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.85rem; color: var(--ink);
+  }
+  .nav-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent-light); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .btn-signout {
+    background: none; border: 1px solid var(--border); border-radius: 100px;
+    padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--muted);
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+  }
+  .btn-signout:hover { border-color: var(--accent); color: var(--accent); }
+  .verify-notice {
+    background: #fef9ec; border: 1px solid #f5d87a; border-radius: 12px;
+    padding: 1.2rem; text-align: center; margin-bottom: 1rem;
+  }
+  .verify-notice p { font-size: 0.9rem; color: #92610a; margin-bottom: 0.5rem; }
+
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--tag-bg);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .upload-area:hover { border-color: var(--accent); background: var(--accent-light); }
+  .upload-area.has-images { padding: 0.75rem; }
+  .preview-thumb {
+    width: 80px; height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    position: relative;
+    display: inline-block;
+  }
+  .preview-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .preview-remove {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 20px; height: 20px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .btn-contact {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-contact:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { padding-right: 0; }
+    .hero h1 { font-size: 2.2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showHome()">Dorm<span>YardSale</span></div>
+  <div class="nav-actions" id="navActions">
+    <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
+    <button class="btn-nav btn-primary" onclick="requireAuth()">🏷️ List Item</button>
+  </div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <span class="marquee-inner">
+    <span class="marquee-item">🌸 Move-out season is coming — list your stuff before finals</span>
+    <span class="marquee-item">✨ Free to list. Free to browse. Always.</span>
+    <span class="marquee-item">🛏️ Twin XL beds · desk lamps · mini-fridges · rugs · mirrors</span>
+    <span class="marquee-item">🎓 Your campus, your community — students only</span>
+    <span class="marquee-item">💕 Give your dorm stuff a second life</span>
+    <span class="marquee-item">🌸 Move-out season is coming — list your stuff before finals</span>
+    <span class="marquee-item">✨ Free to list. Free to browse. Always.</span>
+    <span class="marquee-item">🛏️ Twin XL beds · desk lamps · mini-fridges · rugs · mirrors</span>
+    <span class="marquee-item">🎓 Your campus, your community — students only</span>
+    <span class="marquee-item">💕 Give your dorm stuff a second life</span>
+  </span>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="heroSection">
+  <div class="hero-eyebrow">✨ The student buy & sell marketplace</div>
+  <h1>Your campus.<br><em>Your yard sale.</em></h1>
+  <p>Furniture, mini-fridges, rugs, lamps — buy from students at your school and sell before you move out. Free, always.</p>
+  <div class="hero-search">
+    <input type="text" placeholder="Search for a desk, chair, mini-fridge…" id="heroSearch">
+    <button onclick="doSearch()">Search</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="statListings">—</div>
+      <div class="stat-label">Active listings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statColleges">—</div>
+      <div class="stat-label">Colleges</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statStates">—</div>
+      <div class="stat-label">States</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Fees, ever</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Browse by State</div>
+      <ul class="state-list" id="stateList"></ul>
+    </div>
+    <div class="sidebar-section" id="collegeSection" style="display:none">
+      <div class="sidebar-title">College</div>
+      <div class="college-chips" id="collegeChips"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Category</div>
+      <div class="category-grid" id="categoryGrid"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Price Range</div>
+      <div style="display:flex;gap:0.5rem;align-items:center">
+        <input class="form-input" type="number" placeholder="$0" id="priceMin" style="padding:0.5rem 0.7rem" onchange="filterListings()">
+        <span style="color:var(--muted)">–</span>
+        <input class="form-input" type="number" placeholder="$500" id="priceMax" style="padding:0.5rem 0.7rem" onchange="filterListings()">
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Condition</div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem">
+        <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer"><input type="checkbox" checked onchange="filterListings()"> Like New</label>
+        <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer"><input type="checkbox" checked onchange="filterListings()"> Good</label>
+        <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer"><input type="checkbox" checked onchange="filterListings()"> Fair</label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="breadcrumb" id="breadcrumb">
+      <span>All States</span>
+    </div>
+    <div class="content-header">
+      <div>
+        <div class="content-title" id="contentTitle">All Listings</div>
+        <div class="content-subtitle" id="contentSubtitle">Showing all available items across the US</div>
+      </div>
+      <div class="sort-row">
+        <select class="sort-select" onchange="sortListings(this.value)">
+          <option value="recent">Most Recent</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+        </select>
+        <button class="btn-sell" onclick="openModal()">🏷️ Sell Item</button>
+      </div>
+    </div>
+    <div class="listings-grid" id="listingsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:440px">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div style="text-align:center;margin-bottom:1.2rem">
+      <div style="font-size:2rem">🏷️</div>
+      <h2 style="margin-top:0.4rem">Dorm Yard Sale</h2>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+      <button class="auth-tab" id="tabLogin" onclick="switchTab('login')">Log In</button>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="signupForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="signupEmail" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="signupPassword" placeholder="At least 6 characters">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <select class="form-select" id="signupState" onchange="updateSignupColleges()">
+            <option value="">Select state…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">College</label>
+          <select class="form-select" id="signupCollege">
+            <option value="">Select college…</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="handleSignup()">Create Free Account →</button>
+      <p style="text-align:center;font-size:0.8rem;color:var(--muted);margin-top:0.8rem">
+        Students, parents & families welcome 🌸
+      </p>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginForm" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="loginPassword" placeholder="Your password">
+      </div>
+      <button class="btn-submit" onclick="handleLogin()">Log In →</button>
+      <p style="text-align:center;font-size:0.8rem;color:var(--muted);margin-top:0.8rem;cursor:pointer" onclick="handleForgotPassword()">
+        Forgot password?
+      </p>
+    </div>
+
+    <!-- VERIFY -->
+    <div id="verifyForm" style="display:none">
+      <div class="verify-notice">
+        <div style="font-size:2rem;margin-bottom:0.5rem">📬</div>
+        <p><strong>Check your email!</strong></p>
+        <p>We sent a confirmation link to your email. Click it to activate your account, then come back and log in.</p>
+      </div>
+      <button class="btn-submit" onclick="switchTab('login')">Go to Log In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SELL MODAL -->
+<div class="modal-overlay" id="sellModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Post Your Item</h2>
+    <p>List in under 2 minutes. Reach students at your school for free.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">State</label>
+        <select class="form-select" id="sellState" onchange="updateSellColleges()">
+          <option value="">Select state…</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">College / University</label>
+        <select class="form-select" id="sellCollege">
+          <option value="">Select college…</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Item Title</label>
+      <input class="form-input" type="text" placeholder="e.g. IKEA Hemnes Loft Bed" id="sellTitle">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="sellCategory">
+          <option value="">Select…</option>
+          <option>Beds & Frames</option>
+          <option>Desks & Chairs</option>
+          <option>Storage</option>
+          <option>Lighting</option>
+          <option>Mini-Fridges</option>
+          <option>Rugs & Décor</option>
+          <option>Electronics</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Condition</label>
+        <select class="form-select" id="sellCondition">
+          <option>Like New</option>
+          <option>Good</option>
+          <option>Fair</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Asking Price ($)</label>
+        <input class="form-input" type="number" placeholder="50" id="sellPrice">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Original Price ($)</label>
+        <input class="form-input" type="number" placeholder="120" id="sellOriginal">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" placeholder="Dimensions, why you're selling, pickup info…" id="sellDesc"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Photos <span style="color:var(--muted);font-weight:400">(up to 3)</span></label>
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+        <div id="uploadPrompt">
+          <div style="font-size:2rem;margin-bottom:0.4rem">📸</div>
+          <div style="font-weight:600;font-size:0.9rem">Tap to add photos</div>
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem">JPG or PNG · Max 5MB each</div>
+        </div>
+        <div id="imagePreviewRow" style="display:none;gap:0.5rem;flex-wrap:wrap"></div>
+      </div>
+      <input type="file" id="imageInput" accept="image/*" multiple style="display:none" onchange="handleImageSelect(event)">
+    </div>
+    <button class="btn-submit" onclick="submitListing()">🏷️ Post to Dorm Yard Sale — Free</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ Your item is live on Dorm Yard Sale!</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal" style="max-width:440px">
+    <button class="modal-close" onclick="closeContact()">✕</button>
+    <h2>Contact Seller</h2>
+    <p id="contactListingTitle" style="color:var(--accent);font-weight:600;margin-bottom:1rem"></p>
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input class="form-input" type="text" id="buyerName" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Email</label>
+      <input class="form-input" type="email" id="buyerEmail" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" id="buyerMessage" placeholder="Hi! Is this still available? I'm interested…"></textarea>
+    </div>
+    <button class="btn-submit" onclick="sendContactMessage()">📬 Send Message to Seller</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── SUPABASE ──────────────────────────────────────────────
+const SUPABASE_URL = 'https://htmnblyjzlsdzogthshp.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bW5ibHlqemxzZHpvZ3Roc2hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NDA5NTEsImV4cCI6MjA5MTUxNjk1MX0.-_gXPeckUh4Bp9RmPuxKpg4Tz7NKkeq2olcWUxFItNE';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── STATIC DATA ───────────────────────────────────────────
+const statesData = {
+  // ── SEC STATES ──
+  "Alabama": {
+    
+    colleges: ["University of Alabama","Auburn University","UAB","Alabama State","Samford","Troy University","Jacksonville State","University of North Alabama"]
+  },
+  "Arkansas": {
+    
+    colleges: ["University of Arkansas","Arkansas State","UALR","Hendrix College","Ouachita Baptist","Arkansas Tech","U of Central Arkansas","John Brown University"]
+  },
+  "Florida": {
+    
+    colleges: ["University of Florida","Florida State","University of Miami","UCF","USF","FAU","FIU","Rollins College"]
+  },
+  "Georgia": {
+    
+    colleges: ["University of Georgia","Georgia Tech","Emory","Kennesaw State","Georgia State","Mercer","Agnes Scott","Spelman College"]
+  },
+  "Kentucky": {
+    
+    colleges: ["University of Kentucky","University of Louisville","Western Kentucky","Eastern Kentucky","Bellarmine","Transylvania","Morehead State","Murray State"]
+  },
+  "Louisiana": {
+    
+    colleges: ["LSU","Tulane","Loyola New Orleans","Louisiana Tech","UL Lafayette","Southeastern Louisiana","Xavier University of LA","Centenary College"]
+  },
+  "Mississippi": {
+    
+    colleges: ["Ole Miss","Mississippi State","Southern Miss","Millsaps College","Belhaven","Delta State","Alcorn State","Mississippi Valley State"]
+  },
+  "Missouri": {
+    
+    colleges: ["Mizzou","Washington University","Saint Louis University","Truman State","Missouri S&T","Rockhurst","Drury","William Jewell"]
+  },
+  "Oklahoma": {
+    
+    colleges: ["University of Oklahoma","Oklahoma State","Tulsa","OCU","ORU","NSU","Cameron University","Southwestern Oklahoma"]
+  },
+  "South Carolina": {
+    
+    colleges: ["University of South Carolina","Clemson","Furman","Wofford","College of Charleston","Coastal Carolina","Presbyterian College","Converse"]
+  },
+  "Tennessee": {
+    
+    colleges: ["University of Tennessee","Vanderbilt","Belmont","Rhodes College","MTSU","Lipscomb","Tennessee Tech","Carson-Newman"]
+  },
+  "Texas": {
+    
+    colleges: ["University of Texas","Texas A&M","Rice","SMU","TCU","Baylor","Texas Tech","University of Houston"]
+  },
+  // ── OTHER STATES ──
+  "California": {
+    
+    colleges: ["UCLA","UC Berkeley","USC","UC San Diego","Stanford","UC Davis","Cal Poly SLO","SFSU"]
+  },
+  "New York": {
+    
+    colleges: ["NYU","Columbia","Cornell","Fordham","SUNY Buffalo","Binghamton","Stony Brook","RPI"]
+  },
+  "Massachusetts": {
+    
+    colleges: ["MIT","Harvard","Boston University","Northeastern","Tufts","BC","UMass Amherst","Emerson"]
+  },
+  "Illinois": {
+    
+    colleges: ["U of Chicago","Northwestern","UIUC","DePaul","Loyola Chicago","IIT","ISU","NIU"]
+  },
+  "Pennsylvania": {
+    
+    colleges: ["Penn","Drexel","Temple","Pitt","Carnegie Mellon","Penn State","Villanova","Lehigh"]
+  },
+  "Ohio": {
+    
+    colleges: ["Ohio State","Case Western","Miami OH","Ohio U","Bowling Green","Kent State","Xavier","Denison"]
+  },
+  "Michigan": {
+    
+    colleges: ["U of Michigan","MSU","Wayne State","Western Michigan","EMU","Oakland","Kalamazoo","Albion"]
+  },
+  "North Carolina": {
+    
+    colleges: ["UNC Chapel Hill","Duke","NC State","Wake Forest","Davidson","Elon","High Point","App State"]
+  },
+  "Washington": {
+    
+    colleges: ["UW","WSU","Seattle U","Gonzaga","Western Washington","SPU","UPS","Pacific Lutheran"]
+  },
+  "Virginia": {
+    
+    colleges: ["UVA","Virginia Tech","William & Mary","George Mason","Richmond","Radford","JMU","Liberty"]
+  },
+  "Indiana": {
+    
+    colleges: ["Indiana University","Purdue","Notre Dame","Butler","Ball State","DePauw","Earlham","Valparaiso"]
+  },
+  "Colorado": {
+    
+    colleges: ["CU Boulder","Colorado State","DU","Colorado College","Regis","UNC Greeley","CSU Pueblo","Adams State"]
+  }
+};
+
+const categories = [
+  { label: "Beds & Frames", icon: "🛏️" },
+  { label: "Desks & Chairs", icon: "🪑" },
+  { label: "Storage", icon: "📦" },
+  { label: "Lighting", icon: "💡" },
+  { label: "Mini-Fridges", icon: "🧊" },
+  { label: "Rugs & Décor", icon: "🪴" },
+  { label: "Electronics", icon: "💻" },
+  { label: "Other", icon: "📎" }
+];
+
+
+
+
+// ── STATE ─────────────────────────────────────────────────
+let activeState = null;
+let activeCollege = null;
+let activeCategory = null;
+let allListings = [];
+let currentListings = [];
+let favorites = new Set();
+
+// ── INIT ──────────────────────────────────────────────────
+async function fetchHeroStats() {
+  const { data, error } = await db.from('listings').select('state, college');
+  if (error || !data) return;
+  const totalListings = data.length;
+  const uniqueColleges = new Set(data.map(r => r.college).filter(Boolean)).size;
+  const uniqueStates   = new Set(data.map(r => r.state).filter(Boolean)).size;
+  document.getElementById('statListings').textContent = totalListings.toLocaleString();
+  document.getElementById('statColleges').textContent = uniqueColleges.toLocaleString();
+  document.getElementById('statStates').textContent   = uniqueStates.toLocaleString();
+}
+
+async function init() {
+  populateSellStates();
+  populateSignupStates();
+  showLoading(true);
+  await Promise.all([fetchStateCounts(), fetchHeroStats()]);
+  renderStates();
+  renderCategories();
+  await fetchListings();
+  showLoading(false);
+}
+
+function showLoading(on) {
+  const grid = document.getElementById('listingsGrid');
+  if (on) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)">
+      <div style="font-size:2rem;margin-bottom:1rem">🌸</div>
+      <div style="font-size:0.95rem">Loading listings…</div>
+    </div>`;
+  }
+}
+
+// ── FETCH FROM SUPABASE ───────────────────────────────────
+async function fetchListings() {
+  let query = db.from('listings').select('*').order('created_at', { ascending: false });
+  if (activeState)   query = query.eq('state', activeState);
+  if (activeCollege) query = query.eq('college', activeCollege);
+  if (activeCategory) query = query.eq('category', activeCategory);
+  const minP = parseFloat(document.getElementById('priceMin').value) || null;
+  const maxP = parseFloat(document.getElementById('priceMax').value) || null;
+  if (minP) query = query.gte('price', minP);
+  if (maxP) query = query.lte('price', maxP);
+
+  const { data, error } = await query;
+  if (error) {
+    console.error('Supabase error:', error);
+    currentListings = [];
+  } else {
+    currentListings = data || [];
+  }
+  updateBreadcrumb();
+  renderListings(currentListings);
+}
+
+// ── CONTACT SELLER ────────────────────────────────────────
+let contactListingId = null;
+
+function openContact(id) {
+  if (!currentUser) { requireAuth(); return; }
+  contactListingId = id;
+  const l = currentListings.find(x => x.id === id);
+  document.getElementById('contactListingTitle').textContent = l ? `"${l.title}"` : '';
+  document.getElementById('contactModal').classList.add('open');
+}
+
+function closeContact() {
+  document.getElementById('contactModal').classList.remove('open');
+  contactListingId = null;
+  ['buyerName','buyerEmail','buyerMessage'].forEach(id => document.getElementById(id).value = '');
+}
+
+async function sendContactMessage() {
+  const buyerName    = document.getElementById('buyerName').value.trim();
+  const buyerEmail   = document.getElementById('buyerEmail').value.trim();
+  const buyerMessage = document.getElementById('buyerMessage').value.trim();
+  if (!buyerName || !buyerEmail || !buyerMessage) {
+    showToast('⚠️ Please fill in all fields'); return;
+  }
+  const listing = currentListings.find(x => x.id === contactListingId);
+  if (!listing) return;
+
+  const btn = document.querySelector('#contactModal .btn-submit');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+
+  const res = await fetch('/.netlify/functions/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      sellerEmail: listing.seller_email,
+      buyerName, buyerEmail, buyerMessage,
+      listingTitle: listing.title
+    })
+  });
+
+  btn.textContent = '📬 Send Message to Seller';
+  btn.disabled = false;
+
+  if (res.ok) { closeContact(); showToast('📬 Message sent to seller!'); }
+  else { showToast('❌ Failed to send — please try again'); }
+}
+
+// ── IMAGE UPLOAD ──────────────────────────────────────────
+let selectedFiles = [];
+
+function handleImageSelect(event) {
+  const files = Array.from(event.target.files);
+  const remaining = 3 - selectedFiles.length;
+  const toAdd = files.slice(0, remaining);
+  if (files.length > remaining) showToast(`⚠️ Max 3 photos — added ${toAdd.length}`);
+  selectedFiles = [...selectedFiles, ...toAdd];
+  renderImagePreviews();
+}
+
+function renderImagePreviews() {
+  const row = document.getElementById('imagePreviewRow');
+  const prompt = document.getElementById('uploadPrompt');
+  const area = document.getElementById('uploadArea');
+  if (selectedFiles.length === 0) {
+    row.style.display = 'none';
+    prompt.style.display = '';
+    area.classList.remove('has-images');
+    return;
+  }
+  row.style.display = 'flex';
+  prompt.style.display = 'none';
+  area.classList.add('has-images');
+  row.innerHTML = selectedFiles.map((f, i) => `
+    <div class="preview-wrap">
+      <img class="preview-thumb" src="${URL.createObjectURL(f)}" alt="preview">
+      <button class="preview-remove" onclick="event.stopPropagation();removeImage(${i})">✕</button>
+    </div>
+  `).join('');
+  // Add more button if under 3
+  if (selectedFiles.length < 3) {
+    row.innerHTML += `
+      <div style="width:80px;height:80px;border-radius:8px;border:2px dashed var(--border);
+        display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:1.5rem"
+        onclick="document.getElementById('imageInput').click()">+</div>`;
+  }
+}
+
+function removeImage(index) {
+  selectedFiles.splice(index, 1);
+  renderImagePreviews();
+}
+
+async function uploadImages(listingId) {
+  const urls = [];
+  for (let i = 0; i < selectedFiles.length; i++) {
+    const file = selectedFiles[i];
+    const ext  = file.name.split('.').pop().toLowerCase();
+    const path = `${listingId}/${i}.${ext}`;
+    const { data: uploadData, error: uploadError } = await db.storage
+      .from('listing-images')
+      .upload(path, file, { upsert: true });
+    if (uploadError) { console.error('Upload error:', uploadError); continue; }
+    const { data: urlData } = await db.storage
+      .from('listing-images')
+      .getPublicUrl(path);
+    if (urlData?.publicUrl) urls.push(urlData.publicUrl);
+  }
+  return urls;
+}
+let currentUser = null;
+let pendingPost = false;
+
+db.auth.onAuthStateChange((event, session) => {
+  currentUser = session?.user || null;
+  updateNavAuth();
+  if (event === 'SIGNED_IN') {
+    closeAuth();
+    if (pendingPost) { pendingPost = false; openModal(); }
+  }
+});
+
+function updateNavAuth() {
+  const nav = document.getElementById('navActions');
+  if (currentUser) {
+    const initial = currentUser.email[0].toUpperCase();
+    nav.innerHTML = `
+      <div class="nav-user">
+        <div class="nav-avatar" title="${currentUser.email}">${initial}</div>
+        <button class="btn-signout" onclick="handleSignout()">Sign out</button>
+      </div>
+      <button class="btn-nav btn-primary" onclick="openModal()">🏷️ List Item</button>
+    `;
+  } else {
+    nav.innerHTML = `
+      <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
+      <button class="btn-nav btn-primary" onclick="requireAuth()">🏷️ List Item</button>
+    `;
+  }
+}
+
+function requireAuth() {
+  if (currentUser) openModal();
+  else { pendingPost = true; openAuth('signup'); }
+}
+
+function openAuth(tab = 'signup') {
+  document.getElementById('authModal').classList.add('open');
+  switchTab(tab);
+}
+function closeAuth() {
+  document.getElementById('authModal').classList.remove('open');
+  pendingPost = false;
+}
+function switchTab(tab) {
+  document.getElementById('signupForm').style.display = tab === 'signup' ? '' : 'none';
+  document.getElementById('loginForm').style.display  = tab === 'login'  ? '' : 'none';
+  document.getElementById('verifyForm').style.display = tab === 'verify' ? '' : 'none';
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tabLogin').classList.toggle('active',  tab === 'login');
+}
+
+async function handleSignup() {
+  const email    = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const state    = document.getElementById('signupState').value;
+  const college  = document.getElementById('signupCollege').value;
+  if (!email)            { showToast('⚠️ Please enter your email'); return; }
+  if (password.length < 6) { showToast('⚠️ Password must be at least 6 characters'); return; }
+  const btn = document.querySelector('#signupForm .btn-submit');
+  btn.textContent = 'Creating account…'; btn.disabled = true;
+  const { error } = await db.auth.signUp({
+    email, password,
+    options: { data: { state, college } }
+  });
+  btn.textContent = 'Create Free Account →'; btn.disabled = false;
+  if (error) { showToast('❌ ' + error.message); return; }
+  switchTab('verify');
+}
+
+function populateSignupStates() {
+  const sel = document.getElementById('signupState');
+  Object.keys(statesData).sort().forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+}
+
+function updateSignupColleges() {
+  const state = document.getElementById('signupState').value;
+  const sel = document.getElementById('signupCollege');
+  sel.innerHTML = '<option value="">Select college…</option>';
+  if (state && statesData[state]) {
+    statesData[state].colleges.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+  }
+}
+
+async function handleLogin() {
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.querySelector('#loginForm .btn-submit');
+  btn.textContent = 'Logging in…'; btn.disabled = true;
+  const { error } = await db.auth.signInWithPassword({ email, password });
+  btn.textContent = 'Log In →'; btn.disabled = false;
+  if (error) { showToast('❌ ' + error.message); return; }
+  showToast('👋 Welcome back!');
+}
+
+async function handleSignout() {
+  await db.auth.signOut();
+  showToast('👋 Signed out');
+}
+
+async function handleForgotPassword() {
+  const email = document.getElementById('loginEmail').value.trim();
+  if (!email) { showToast('Enter your email above first'); return; }
+  const { error } = await db.auth.resetPasswordForEmail(email);
+  if (error) { showToast('❌ ' + error.message); return; }
+  showToast('📬 Password reset email sent!');
+}
+
+// ── SUBMIT TO SUPABASE ────────────────────────────────────
+async function submitListing() {
+  if (!currentUser) { requireAuth(); return; }
+  const title         = document.getElementById('sellTitle').value.trim();
+  const price         = document.getElementById('sellPrice').value;
+  const college       = document.getElementById('sellCollege').value;
+  const state         = document.getElementById('sellState').value;
+  const category      = document.getElementById('sellCategory').value;
+  const condition     = document.getElementById('sellCondition').value;
+  const original_price = document.getElementById('sellOriginal').value || null;
+  const description   = document.getElementById('sellDesc').value.trim();
+
+  if (!title || !price || !college || !state || !category) {
+    alert('Please fill in: title, price, state, college, and category.');
+    return;
+  }
+  const btn = document.querySelector('#sellModal .btn-submit');
+  btn.textContent = 'Posting…'; btn.disabled = true;
+
+  // Insert listing first to get the ID
+  const { data: inserted, error } = await db.from('listings').insert([{
+    title, price: parseFloat(price),
+    original_price: original_price ? parseFloat(original_price) : null,
+    category, condition, description, state, college,
+    user_id: currentUser.id,
+    seller_email: currentUser.email
+  }]).select().single();
+
+  if (error) {
+    btn.textContent = '🏷️ Post to Dorm Yard Sale — Free';
+    btn.disabled = false;
+    alert('Something went wrong: ' + error.message);
+    return;
+  }
+
+  // Upload images if any
+  if (selectedFiles.length > 0) {
+    btn.textContent = 'Uploading photos…';
+    const urls = await uploadImages(inserted.id);
+    console.log('Uploaded URLs:', urls);
+    if (urls.length > 0) {
+      const { error: updateError } = await db.from('listings')
+        .update({ image_url: urls[0] })
+        .eq('id', inserted.id);
+      if (updateError) console.error('URL save error:', updateError);
+    }
+  }
+
+  btn.textContent = '🏷️ Post to Dorm Yard Sale — Free';
+  btn.disabled = false;
+  closeModal();
+  showToast('🏷️ Your item is live!');
+  selectedFiles = [];
+  renderImagePreviews();
+  ['sellTitle','sellPrice','sellOriginal','sellDesc'].forEach(id => document.getElementById(id).value = '');
+  await Promise.all([fetchStateCounts(), fetchHeroStats()]);
+  renderStates();
+  await fetchListings();
+}
+
+// ── FILTERS & SORTING ─────────────────────────────────────
+let stateCounts = {};
+
+async function fetchStateCounts() {
+  const { data, error } = await db.from('listings').select('state');
+  if (error || !data) return;
+  stateCounts = {};
+  data.forEach(row => {
+    if (row.state) stateCounts[row.state] = (stateCounts[row.state] || 0) + 1;
+  });
+}
+
+function renderStates() {
+  const ul = document.getElementById('stateList');
+  ul.innerHTML = '';
+  const total = Object.values(stateCounts).reduce((a,b) => a+b, 0);
+  const allLi = document.createElement('li');
+  allLi.className = 'state-item' + (activeState === null ? ' active' : '');
+  allLi.innerHTML = `All States <span class="state-count">${total || ''}</span>`;
+  allLi.onclick = () => { activeState = null; activeCollege = null; updateView(); };
+  ul.appendChild(allLi);
+  Object.keys(statesData).sort().forEach(state => {
+    const li = document.createElement('li');
+    li.className = 'state-item' + (activeState === state ? ' active' : '');
+    const count = stateCounts[state] || '';
+    li.innerHTML = `${state} ${count ? `<span class="state-count">${count}</span>` : ''}`;
+    li.onclick = () => { activeState = state; activeCollege = null; updateView(); };
+    ul.appendChild(li);
+  });
+}
+
+function renderCategories() {
+  const grid = document.getElementById('categoryGrid');
+  grid.innerHTML = '';
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (activeCategory === cat.label ? ' active' : '');
+    btn.innerHTML = `<span class="cat-icon">${cat.icon}</span>${cat.label}`;
+    btn.onclick = async () => {
+      activeCategory = activeCategory === cat.label ? null : cat.label;
+      renderCategories();
+      showLoading(true);
+      await fetchListings();
+      showLoading(false);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+async function updateView() {
+  renderStates();
+  const collegeSection = document.getElementById('collegeSection');
+  if (activeState && statesData[activeState]) {
+    collegeSection.style.display = '';
+    const chips = document.getElementById('collegeChips');
+    chips.innerHTML = '';
+    statesData[activeState].colleges.forEach(c => {
+      const chip = document.createElement('div');
+      chip.className = 'college-chip' + (activeCollege === c ? ' active' : '');
+      chip.textContent = c;
+      chip.onclick = async () => {
+        activeCollege = activeCollege === c ? null : c;
+        updateView();
+      };
+      chips.appendChild(chip);
+    });
+  } else {
+    collegeSection.style.display = 'none';
+  }
+  showLoading(true);
+  await fetchListings();
+  showLoading(false);
+}
+
+async function filterListings() {
+  showLoading(true);
+  await fetchListings();
+  showLoading(false);
+}
+
+async function sortListings(val) {
+  const { data, error } = await db.from('listings')
+    .select('*')
+    .order(val === 'price-asc' || val === 'price-desc' ? 'price' : 'created_at', {
+      ascending: val === 'price-asc' || val === 'recent'
+    });
+  if (!error) { currentListings = data || []; renderListings(currentListings); }
+}
+
+function updateBreadcrumb() {
+  const bc = document.getElementById('breadcrumb');
+  let parts = [];
+  if (!activeState) parts.push('<span>All States</span>');
+  else {
+    parts.push(`<a href="#" onclick="activeState=null;activeCollege=null;updateView();return false;" style="color:var(--muted)">All States</a>`);
+    parts.push(`<span class="sep">›</span>`);
+    if (!activeCollege) parts.push(`<span>${activeState}</span>`);
+    else {
+      parts.push(`<a href="#" onclick="activeCollege=null;updateView();return false;" style="color:var(--muted)">${activeState}</a>`);
+      parts.push(`<span class="sep">›</span>`);
+      parts.push(`<span>${activeCollege}</span>`);
+    }
+  }
+  if (activeCategory) { parts.push(`<span class="sep">›</span>`); parts.push(`<span>${activeCategory}</span>`); }
+  bc.innerHTML = parts.join('');
+  document.getElementById('contentTitle').textContent =
+    activeCollege ? `${activeCollege} Listings` :
+    activeState   ? `${activeState} Listings`   : 'All Listings';
+  document.getElementById('contentSubtitle').textContent =
+    `${currentListings.length} item${currentListings.length !== 1 ? 's' : ''} available${activeCategory ? ' · ' + activeCategory : ''}`;
+}
+
+// ── RENDER ────────────────────────────────────────────────
+function renderListings(listings) {
+  const grid = document.getElementById('listingsGrid');
+  if (listings.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)">
+      <div style="font-size:3rem;margin-bottom:1rem">🏷️</div>
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem">No listings yet</div>
+      <div style="font-size:0.9rem">Be the first to sell here!</div>
+      <button class="btn-sell" style="margin:1rem auto 0;display:inline-flex" onclick="openModal()">+ Post an Item</button>
+    </div>`;
+    return;
+  }
+  const catIcons = { "Beds & Frames":"🛏️","Desks & Chairs":"🪑","Storage":"📦","Lighting":"💡","Mini-Fridges":"🧊","Rugs & Décor":"🪴","Electronics":"💻","Other":"📎" };
+  grid.innerHTML = listings.map(l => `
+    <div class="listing-card" onclick="viewListing('${l.id}')">
+      ${l.image_url
+        ? `<img class="card-img" src="${l.image_url}" alt="${l.title}">`
+        : `<div class="card-img-placeholder" style="background:${colorFor(l.category)}">${catIcons[l.category] || '📦'}</div>`
+      }
+      <div class="card-fav" onclick="event.stopPropagation();toggleFav('${l.id}',this)">${favorites.has(l.id) ? '❤️' : '🤍'}</div>
+      <div class="card-body">
+        <div class="card-school">${l.college || ''} · ${l.state || ''}</div>
+        <div class="card-title">${l.title}</div>
+        <div class="card-condition">${conditionDot(l.condition)} ${l.condition || ''}</div>
+        <div class="card-footer">
+          <div>
+            <span class="card-price">$${l.price}</span>
+            ${l.original_price ? `<span class="card-price-original">$${l.original_price}</span>` : ''}
+          </div>
+          <span class="card-time">${timeAgo(l.created_at)}</span>
+        </div>
+        <button class="btn-contact" onclick="event.stopPropagation();openContact('${l.id}')">📬 Contact Seller</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const diff = (Date.now() - new Date(ts)) / 1000;
+  if (diff < 60)    return 'Just now';
+  if (diff < 3600)  return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
+}
+
+function colorFor(cat) {
+  const map = {"Beds & Frames":"#fceef0","Desks & Chairs":"#f5eef8","Storage":"#fdf0ec","Lighting":"#fef3f0","Mini-Fridges":"#f5eef8","Rugs & Décor":"#fceef0","Electronics":"#f5eef8","Other":"#fdf0ec"};
+  return map[cat] || '#fdf0ec';
+}
+
+function conditionDot(cond) {
+  if (cond === 'Like New') return '<span style="color:#16a34a">●</span>';
+  if (cond === 'Good')     return '<span style="color:#ca8a04">●</span>';
+  return '<span style="color:#dc2626">●</span>';
+}
+
+function toggleFav(id, el) {
+  if (favorites.has(id)) { favorites.delete(id); el.textContent = '🤍'; }
+  else { favorites.add(id); el.textContent = '❤️'; showToast('❤️ Saved to favorites!'); }
+}
+
+function viewListing(id) {
+  const l = currentListings.find(x => x.id === id);
+  if (!l) return;
+  alert(`📋 ${l.title}\n\n💰 Price: $${l.price}${l.original_price ? ' (was $'+l.original_price+')' : ''}\n🏫 ${l.college}, ${l.state}\n📦 ${l.category}\n✅ ${l.condition}${l.description ? '\n\n'+l.description : ''}${l.contact ? '\n\n📬 Contact: '+l.contact : ''}`);
+}
+
+async function doSearch() {
+  const q = document.getElementById('heroSearch').value.trim().toLowerCase();
+  if (!q) { await fetchListings(); return; }
+  const { data } = await db.from('listings').select('*')
+    .or(`title.ilike.%${q}%,category.ilike.%${q}%,college.ilike.%${q}%,state.ilike.%${q}%`)
+    .order('created_at', { ascending: false });
+  currentListings = data || [];
+  document.getElementById('contentTitle').textContent = `Results for "${q}"`;
+  document.getElementById('contentSubtitle').textContent = `${currentListings.length} item${currentListings.length !== 1 ? 's' : ''} found`;
+  renderListings(currentListings);
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal() {
+  document.getElementById('sellModal').classList.add('open');
+  // Pre-fill state/college from user profile if available
+  if (currentUser?.user_metadata?.state) {
+    const stateEl = document.getElementById('sellState');
+    stateEl.value = currentUser.user_metadata.state;
+    updateSellColleges();
+    setTimeout(() => {
+      if (currentUser.user_metadata.college) {
+        document.getElementById('sellCollege').value = currentUser.user_metadata.college;
+      }
+    }, 50);
+  }
+}
+function closeModal() {
+  document.getElementById('sellModal').classList.remove('open');
+  selectedFiles = [];
+  renderImagePreviews();
+  document.getElementById('imageInput').value = '';
+}
+
+function populateSellStates() {
+  const sel = document.getElementById('sellState');
+  Object.keys(statesData).sort().forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+}
+
+function updateSellColleges() {
+  const state = document.getElementById('sellState').value;
+  const sel = document.getElementById('sellCollege');
+  sel.innerHTML = '<option value="">Select college…</option>';
+  if (state && statesData[state]) {
+    statesData[state].colleges.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+async function showHome() {
+  activeState = null; activeCollege = null; activeCategory = null;
+  renderStates(); renderCategories(); updateBreadcrumb();
+  showLoading(true);
+  await fetchListings();
+  showLoading(false);
+}
+
+// ── ENTER KEY ON SEARCH ───────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('heroSearch').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+});
+
+init();
+</script>
+</body>
+</html>
