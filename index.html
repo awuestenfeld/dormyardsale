@@ -1350,101 +1350,155 @@ const db = window.supabase
 const statesData = {
   // ── SEC STATES ──
   "Alabama": {
-    
     colleges: ["University of Alabama","Auburn University","UAB","Alabama State","Samford","Troy University","Jacksonville State","University of North Alabama"]
   },
   "Arkansas": {
-    
     colleges: ["University of Arkansas","Arkansas State","UALR","Hendrix College","Ouachita Baptist","Arkansas Tech","U of Central Arkansas","John Brown University"]
   },
   "Florida": {
-    
     colleges: ["University of Florida","Florida State","University of Miami","UCF","USF","FAU","FIU","Rollins College"]
   },
   "Georgia": {
-    
     colleges: ["University of Georgia","Georgia Tech","Emory","Kennesaw State","Georgia State","Mercer","Agnes Scott","Spelman College"]
   },
   "Kentucky": {
-    
     colleges: ["University of Kentucky","University of Louisville","Western Kentucky","Eastern Kentucky","Bellarmine","Transylvania","Morehead State","Murray State"]
   },
   "Louisiana": {
-    
     colleges: ["LSU","Tulane","Loyola New Orleans","Louisiana Tech","UL Lafayette","Southeastern Louisiana","Xavier University of LA","Centenary College"]
   },
   "Mississippi": {
-    
     colleges: ["Ole Miss","Mississippi State","Southern Miss","Millsaps College","Belhaven","Delta State","Alcorn State","Mississippi Valley State"]
   },
   "Missouri": {
-    
     colleges: ["Mizzou","Washington University","Saint Louis University","Truman State","Missouri S&T","Rockhurst","Drury","William Jewell"]
   },
   "Oklahoma": {
-    
     colleges: ["University of Oklahoma","Oklahoma State","Tulsa","OCU","ORU","NSU","Cameron University","Southwestern Oklahoma"]
   },
   "South Carolina": {
-    
     colleges: ["University of South Carolina","Clemson","Furman","Wofford","College of Charleston","Coastal Carolina","Presbyterian College","Converse"]
   },
   "Tennessee": {
-    
     colleges: ["University of Tennessee","Vanderbilt","Belmont","Rhodes College","MTSU","Lipscomb","Tennessee Tech","Carson-Newman"]
   },
   "Texas": {
-    
     colleges: ["University of Texas","Texas A&M","Rice","SMU","TCU","Baylor","Texas Tech","University of Houston"]
   },
   // ── OTHER STATES ──
   "California": {
-    
     colleges: ["UCLA","UC Berkeley","USC","UC San Diego","Stanford","UC Davis","Cal Poly SLO","SFSU"]
   },
   "New York": {
-    
     colleges: ["NYU","Columbia","Cornell","Fordham","SUNY Buffalo","Binghamton","Stony Brook","RPI"]
   },
   "Massachusetts": {
-    
     colleges: ["MIT","Harvard","Boston University","Northeastern","Tufts","BC","UMass Amherst","Emerson"]
   },
   "Illinois": {
-    
     colleges: ["U of Chicago","Northwestern","UIUC","DePaul","Loyola Chicago","IIT","ISU","NIU"]
   },
   "Pennsylvania": {
-    
     colleges: ["Penn","Drexel","Temple","Pitt","Carnegie Mellon","Penn State","Villanova","Lehigh"]
   },
   "Ohio": {
-    
     colleges: ["Ohio State","Case Western","Miami OH","Ohio U","Bowling Green","Kent State","Xavier","Denison"]
   },
   "Michigan": {
-    
     colleges: ["U of Michigan","MSU","Wayne State","Western Michigan","EMU","Oakland","Kalamazoo","Albion"]
   },
   "North Carolina": {
-    
     colleges: ["UNC Chapel Hill","Duke","NC State","Wake Forest","Davidson","Elon","High Point","App State"]
   },
   "Washington": {
-    
     colleges: ["UW","WSU","Seattle U","Gonzaga","Western Washington","SPU","UPS","Pacific Lutheran"]
   },
   "Virginia": {
-    
     colleges: ["UVA","Virginia Tech","William & Mary","George Mason","Richmond","Radford","JMU","Liberty"]
   },
   "Indiana": {
-    
     colleges: ["Indiana University","Purdue","Notre Dame","Butler","Ball State","DePauw","Earlham","Valparaiso"]
   },
   "Colorado": {
-    
     colleges: ["CU Boulder","Colorado State","DU","Colorado College","Regis","UNC Greeley","CSU Pueblo","Adams State"]
+  },
+  "Alaska": {
+    colleges: ["University of Alaska Anchorage","University of Alaska Fairbanks","Alaska Pacific University","UAA","UAF","Sheldon Jackson","Prince William Sound","Ilisagvik College"]
+  },
+  "Arizona": {
+    colleges: ["University of Arizona","Arizona State","NAU","Grand Canyon University","Embry-Riddle","Prescott College","Arizona Christian","Thunderbird"]
+  },
+  "Connecticut": {
+    colleges: ["Yale","UConn","Wesleyan","Trinity College","Fairfield","Sacred Heart","Quinnipiac","Connecticut College"]
+  },
+  "Delaware": {
+    colleges: ["University of Delaware","Delaware State","Widener","Wesley College","Goldey-Beacom","Delaware Valley","Wilmington University","Goldey Beacom"]
+  },
+  "Hawaii": {
+    colleges: ["University of Hawaii","UH Manoa","UH Hilo","Hawaii Pacific","Chaminade","BYU Hawaii","UH West Oahu","Remington College"]
+  },
+  "Idaho": {
+    colleges: ["University of Idaho","Boise State","Idaho State","BYU Idaho","Lewis-Clark State","College of Idaho","Northwest Nazarene","NIC"]
+  },
+  "Iowa": {
+    colleges: ["University of Iowa","Iowa State","Drake","Grinnell","Coe College","Luther College","Cornell College","Loras"]
+  },
+  "Kansas": {
+    colleges: ["University of Kansas","Kansas State","Wichita State","Emporia State","Fort Hays State","Washburn","Friends University","Benedictine"]
+  },
+  "Maine": {
+    colleges: ["University of Maine","Bowdoin","Bates","Colby","USM","UMaine Farmington","Maine Maritime","Thomas College"]
+  },
+  "Maryland": {
+    colleges: ["University of Maryland","Johns Hopkins","UMBC","Towson","Loyola Maryland","USNA","McDaniel","Goucher"]
+  },
+  "Minnesota": {
+    colleges: ["University of Minnesota","Carleton","Macalester","St. Olaf","Hamline","St. Thomas","Concordia","Gustavus Adolphus"]
+  },
+  "Montana": {
+    colleges: ["University of Montana","Montana State","Carroll College","Rocky Mountain College","Montana Tech","MSU Billings","U of Great Falls","Dawson"]
+  },
+  "Nebraska": {
+    colleges: ["University of Nebraska","Creighton","Nebraska Wesleyan","Chadron State","Wayne State NE","Peru State","Doane","Hastings College"]
+  },
+  "Nevada": {
+    colleges: ["UNLV","University of Nevada Reno","Nevada State","Sierra Nevada","Great Basin College","WNC","Truckee Meadows","College of Southern Nevada"]
+  },
+  "New Hampshire": {
+    colleges: ["UNH","Dartmouth","Plymouth State","Keene State","Southern NH University","Colby-Sawyer","Saint Anselm","Franklin Pierce"]
+  },
+  "New Jersey": {
+    colleges: ["Rutgers","Princeton","Seton Hall","NJIT","Montclair State","Rowan","Kean","Drew"]
+  },
+  "New Mexico": {
+    colleges: ["University of New Mexico","NMSU","New Mexico Tech","Eastern New Mexico","Western New Mexico","St. John's Santa Fe","UNM Taos","CNM"]
+  },
+  "North Dakota": {
+    colleges: ["University of North Dakota","NDSU","Minot State","Dickinson State","Valley City State","Mayville State","Bismarck State","Lake Region"]
+  },
+  "Oregon": {
+    colleges: ["University of Oregon","Oregon State","Portland","Reed College","Lewis & Clark","Willamette","Pacific University","George Fox"]
+  },
+  "Rhode Island": {
+    colleges: ["Brown","URI","RISD","Providence College","Bryant","Roger Williams","Salve Regina","Johnson & Wales"]
+  },
+  "South Dakota": {
+    colleges: ["University of South Dakota","SDSU","South Dakota Mines","Augustana","Dakota Wesleyan","Northern State","Black Hills State","Mount Marty"]
+  },
+  "Utah": {
+    colleges: ["University of Utah","BYU","Utah State","Weber State","Westminster","SUU","Dixie State","Utah Valley"]
+  },
+  "Vermont": {
+    colleges: ["UVM","Middlebury","Norwich","Saint Michael's","Champlain","Castleton","Green Mountain","Bennington"]
+  },
+  "West Virginia": {
+    colleges: ["West Virginia University","Marshall","WVU Tech","Shepherd","Davis & Elkins","Fairmont State","Concord","Bluefield State"]
+  },
+  "Wisconsin": {
+    colleges: ["UW Madison","Marquette","UW Milwaukee","Lawrence","Beloit","Carroll University","Ripon","St. Norbert"]
+  },
+  "Wyoming": {
+    colleges: ["University of Wyoming","Laramie County CC","Casper College","Western Wyoming","Central Wyoming","Northwest College","Sheridan College","Eastern Wyoming"]
   }
 };
 
