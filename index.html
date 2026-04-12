@@ -990,9 +990,27 @@
   @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
     .sidebar { padding-right: 0; }
-    .hero h1 { font-size: 2.2rem; }
-    .hero-stats { gap: 1.5rem; }
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 1rem; }
+    .hero-stats .stat-num { font-size: 1.4rem; }
     .form-row { grid-template-columns: 1fr; }
+    nav { height: 56px; padding: 0 1rem; }
+    .btn-nav { font-size: 0.75rem; padding: 0.35rem 0.7rem; }
+    .nav-user { gap: 0.4rem; }
+    .btn-signout { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+    .nav-avatar { width: 28px; height: 28px; font-size: 0.75rem; }
+    .hero { padding: 3rem 1.2rem 2.5rem; }
+    .hero-search { border-radius: 10px; }
+    .listings-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .card-title { font-size: 0.85rem; }
+    .card-price { font-size: 1rem; }
+    .main-layout { padding: 1rem; }
+    .detail-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .detail-title { font-size: 1.5rem; }
+    .detail-page { padding: 1rem; }
+  }
+  @media (max-width: 400px) {
+    .listings-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -1001,7 +1019,7 @@
 <!-- NAV -->
 <nav>
   <div class="logo" onclick="showHome()" style="font-family:inherit">
-    <img src="logo.png" alt="Dorm Yard Sale" style="height:56px;width:auto;display:block">
+    <img src="logo.png" alt="Dorm Yard Sale" style="height:clamp(32px,5vw,48px);width:auto;display:block">
   </div>
   <div class="nav-actions" id="navActions">
     <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
