@@ -2143,12 +2143,106 @@ async function showHome() {
   showLoading(false);
 }
 
+// ── LEGAL ─────────────────────────────────────────────────
+function openLegal(type) {
+  const tos = `
+    <h2 style="font-family:'Playfair Display',serif;margin-bottom:0.5rem">Terms of Service</h2>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">Last updated: April 2025</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>1. Acceptance of Terms</strong><br>
+    By using Dorm Yard Sale ("the Site"), you agree to these Terms of Service. If you do not agree, please do not use the Site.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>2. Who Can Use the Site</strong><br>
+    Dorm Yard Sale is open to college students, parents, and families associated with a college or university. You must be at least 13 years old to create an account.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>3. Listings</strong><br>
+    Sellers are solely responsible for the accuracy of their listings. Dorm Yard Sale does not verify, inspect, or guarantee any items listed on the Site. All transactions are between buyers and sellers directly — Dorm Yard Sale is not a party to any transaction.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>4. Prohibited Items</strong><br>
+    You may not list illegal items, weapons, alcohol, tobacco, prescription drugs, or any item that violates federal, state, or local law. We reserve the right to remove any listing at our discretion.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>5. No Guarantee of Sale</strong><br>
+    Dorm Yard Sale does not guarantee that any item will sell, or that any buyer or seller will complete a transaction.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>6. Limitation of Liability</strong><br>
+    Dorm Yard Sale is not liable for any damages, losses, or disputes arising from transactions between users. Use the Site at your own risk. Always meet in safe, public locations for exchanges.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>7. Amazon Affiliate Disclosure</strong><br>
+    Dorm Yard Sale participates in the Amazon Services LLC Associates Program. We earn a small commission on qualifying purchases made through Amazon links on this site, at no extra cost to you.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>8. Changes to Terms</strong><br>
+    We may update these terms at any time. Continued use of the Site constitutes acceptance of the updated terms.</p>
+
+    <p style="font-size:0.9rem;line-height:1.7"><strong>9. Contact</strong><br>
+    Questions? Email us at <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a></p>
+  `;
+
+  const privacy = `
+    <h2 style="font-family:'Playfair Display',serif;margin-bottom:0.5rem">Privacy Policy</h2>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">Last updated: April 2025</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>1. Information We Collect</strong><br>
+    We collect your email address when you create an account. When you post a listing, we collect the listing details you provide including title, price, description, photos, and your college/state. We do not collect payment information.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>2. How We Use Your Information</strong><br>
+    We use your email to manage your account and send notifications when someone contacts you about your listing. We do not sell your personal information to third parties.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>3. What Other Users Can See</strong><br>
+    Your email address is never shown publicly on the Site. When a buyer contacts you, your email is used only to forward their message — buyers see only what you include in your listing description.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>4. Photos</strong><br>
+    Photos you upload are stored securely and displayed publicly on your listing. Do not include personal information in your photos.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>5. Cookies</strong><br>
+    We use cookies to keep you logged in. We do not use advertising or tracking cookies.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>6. Third-Party Services</strong><br>
+    We use Supabase for database and authentication, Resend for email delivery, and Netlify for hosting. Each has their own privacy policy. We participate in the Amazon Associates Program — Amazon may use cookies when you click affiliate links.</p>
+
+    <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>7. Data Deletion</strong><br>
+    You can delete your listings at any time from "My Listings." To delete your account and all associated data, email us at <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a></p>
+
+    <p style="font-size:0.9rem;line-height:1.7"><strong>8. Contact</strong><br>
+    Questions about your privacy? Email <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a></p>
+  `;
+
+  document.getElementById('legalContent').innerHTML = type === 'tos' ? tos : privacy;
+  document.getElementById('legalModal').classList.add('open');
+}
+
 // ── ENTER KEY ON SEARCH ───────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('heroSearch').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
   });
 });
+
+<!-- FOOTER -->
+<footer style="background:#fff;border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:3rem">
+  <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.75rem">
+    <img src="logo.png" alt="Dorm Yard Sale" style="height:28px;width:auto;opacity:0.7">
+  </div>
+  <div style="font-size:0.8rem;color:var(--muted)">
+    © 2025 Dorm Yard Sale · Free to list, free to browse, always.
+    <span style="margin:0 0.5rem">·</span>
+    <a href="#" onclick="openLegal('tos');return false;" style="color:var(--muted);text-decoration:underline">Terms of Service</a>
+    <span style="margin:0 0.5rem">·</span>
+    <a href="#" onclick="openLegal('privacy');return false;" style="color:var(--muted);text-decoration:underline">Privacy Policy</a>
+    <span style="margin:0 0.5rem">·</span>
+    <a href="mailto:hello@dormyardsale.com" style="color:var(--muted);text-decoration:underline">Contact Us</a>
+  </div>
+  <div style="font-size:0.72rem;color:var(--border);margin-top:0.5rem">
+    Dorm Yard Sale is a participant in the Amazon Services LLC Associates Program.
+  </div>
+</footer>
+
+<!-- LEGAL MODAL -->
+<div class="modal-overlay" id="legalModal">
+  <div class="modal" style="max-width:640px;max-height:80vh;overflow-y:auto">
+    <button class="modal-close" onclick="document.getElementById('legalModal').classList.remove('open')">✕</button>
+    <div id="legalContent"></div>
+  </div>
+</div>
 
 init();
 </script>
