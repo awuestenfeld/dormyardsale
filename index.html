@@ -1005,6 +1005,7 @@
     .card-title { font-size: 0.85rem; }
     .card-price { font-size: 1rem; }
     .main-layout { padding: 1rem; }
+    .state-item { padding-left: 0.8rem; }
     .detail-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .detail-title { font-size: 1.5rem; }
     .detail-page { padding: 1rem; }
@@ -1885,19 +1886,70 @@ function renderStates() {
   const ul = document.getElementById('stateList');
   ul.innerHTML = '';
   const total = Object.values(stateCounts).reduce((a,b) => a+b, 0);
+
+  // All States
   const allLi = document.createElement('li');
   allLi.className = 'state-item' + (activeState === null ? ' active' : '');
   allLi.innerHTML = `All States <span class="state-count">${total || ''}</span>`;
   allLi.onclick = () => { activeState = null; activeCollege = null; updateView(); };
   ul.appendChild(allLi);
-  Object.keys(statesData).sort().forEach(state => {
+
+  // Active states (have listings) sorted by count
+  const activeStates = Object.keys(statesData)
+    .filter(s => stateCounts[s])
+    .sort((a,b) => (stateCounts[b] || 0) - (stateCounts[a] || 0));
+
+  // Inactive states (no listings yet)
+  const inactiveStates = Object.keys(statesData)
+    .filter(s => !stateCounts[s])
+    .sort();
+
+  if (activeStates.length > 0) {
+    // Section label
+    const activeDivider = document.createElement('li');
+    activeDivider.innerHTML = `<span style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-family:'Playfair Display',serif;display:block;padding:0.6rem 0.6rem 0.2rem;border-top:1px solid var(--border);margin-top:0.4rem;">Active</span>`;
+    ul.appendChild(activeDivider);
+
+    activeStates.forEach(state => {
+      const li = document.createElement('li');
+      li.className = 'state-item' + (activeState === state ? ' active' : '');
+      li.innerHTML = `${state} <span class="state-count">${stateCounts[state]}</span>`;
+      li.onclick = () => { activeState = state; activeCollege = null; updateView(); };
+      ul.appendChild(li);
+    });
+  }
+
+  // Collapsible all states section
+  const toggleLi = document.createElement('li');
+  toggleLi.id = 'allStatesToggle';
+  toggleLi.innerHTML = `<span style="font-size:0.82rem;font-weight:600;color:var(--muted);cursor:pointer;display:block;padding:0.6rem 0.6rem 0.2rem;border-top:1px solid var(--border);margin-top:0.4rem;" onclick="toggleAllStates()">+ Show all states (${inactiveStates.length + activeStates.length} total)</span>`;
+  ul.appendChild(toggleLi);
+
+  // Hidden inactive states
+  const inactiveContainer = document.createElement('div');
+  inactiveContainer.id = 'inactiveStates';
+  inactiveContainer.style.display = 'none';
+  inactiveStates.forEach(state => {
     const li = document.createElement('li');
     li.className = 'state-item' + (activeState === state ? ' active' : '');
-    const count = stateCounts[state] || '';
-    li.innerHTML = `${state} ${count ? `<span class="state-count">${count}</span>` : ''}`;
+    li.style.color = 'var(--muted)';
+    li.innerHTML = `${state}`;
     li.onclick = () => { activeState = state; activeCollege = null; updateView(); };
-    ul.appendChild(li);
+    inactiveContainer.appendChild(li);
   });
+  ul.appendChild(inactiveContainer);
+}
+
+function toggleAllStates() {
+  const container = document.getElementById('inactiveStates');
+  const toggle = document.getElementById('allStatesToggle').querySelector('span');
+  const isHidden = container.style.display === 'none';
+  container.style.display = isHidden ? '' : 'none';
+  const inactiveCount = container.querySelectorAll('li').length;
+  const activeCount = Object.keys(stateCounts).filter(s => stateCounts[s]).length;
+  toggle.textContent = isHidden
+    ? `− Hide other states`
+    : `+ Show all states (${inactiveCount + activeCount} total)`;
 }
 
 function renderCategories() {
