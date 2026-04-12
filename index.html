@@ -1013,6 +1013,105 @@
   @media (max-width: 400px) {
     .listings-grid { grid-template-columns: 1fr; }
   }
+
+  /* ABOUT PAGE */
+  .about-page {
+    display: none;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+  .about-page.open { display: block; }
+  .about-hero {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    background: linear-gradient(135deg, #fdf0ed 0%, #fff8f5 100%);
+    border-radius: 24px;
+    margin-bottom: 3rem;
+  }
+  .about-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .about-hero h1 em { color: var(--accent); font-style: italic; }
+  .about-hero p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
+  .about-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .about-step-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .about-step-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .about-step-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+  .about-step-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+  .about-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+  .about-faq { margin-bottom: 3rem; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+  .faq-q {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-a { font-size: 0.9rem; color: var(--muted); line-height: 1.7; display: none; padding-top: 0.3rem; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-chevron { transition: transform 0.2s; font-size: 0.8rem; color: var(--muted); }
+  .about-cta {
+    background: var(--accent);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    color: #fff;
+  }
+  .about-cta h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .about-cta p { opacity: 0.85; margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .btn-about-cta {
+    background: #fff;
+    color: var(--accent);
+    border: none;
+    border-radius: 100px;
+    padding: 0.8rem 2rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-about-cta:hover { background: #fdf0ed; }
+  @media (max-width: 768px) {
+    .about-steps { grid-template-columns: 1fr; }
+    .about-hero h1 { font-size: 2rem; }
+  }
 </style>
 </head>
 <body>
@@ -1023,6 +1122,7 @@
     <img src="logo.png" alt="Dorm Yard Sale" style="height:clamp(32px,5vw,48px);width:auto;display:block">
   </div>
   <div class="nav-actions" id="navActions">
+    <button class="btn-nav btn-ghost" onclick="showAbout()" style="font-size:0.8rem;opacity:0.7">How it works</button>
     <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
     <button class="btn-nav btn-primary" onclick="requireAuth()">🏷️ List Item</button>
   </div>
@@ -1094,6 +1194,91 @@
         <a class="btn-amazon-large" id="detailAmazonBtn" target="_blank" rel="noopener">🛒 Shop similar items new on Amazon</a>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="about-page" id="aboutPage">
+  <button class="detail-back" onclick="closeAbout()">← Back to listings</button>
+
+  <div class="about-hero">
+    <div style="font-size:2.5rem;margin-bottom:1rem">🏷️</div>
+    <h1>Buy & sell dorm stuff.<br><em>Free, always.</em></h1>
+    <p>Dorm Yard Sale is the easiest way for college students to sell furniture and find great deals — no fees, no middleman, just students helping students.</p>
+    <button class="btn-about-cta" style="background:var(--accent);color:#fff;" onclick="closeAbout(); requireAuth()">🏷️ List an Item Free</button>
+  </div>
+
+  <div style="margin-bottom:2rem">
+    <div class="about-section-title">How it works</div>
+    <div class="about-steps">
+      <div class="about-step-card">
+        <div class="about-step-icon">🔍</div>
+        <div class="about-step-title">Browse your school</div>
+        <div class="about-step-desc">Filter by your state and college to see listings from students at your school. No random stuff from strangers across the country.</div>
+      </div>
+      <div class="about-step-card">
+        <div class="about-step-icon">📬</div>
+        <div class="about-step-title">Contact the seller</div>
+        <div class="about-step-desc">See something you like? Send the seller a message directly through the listing. They'll reply to your email so you can work out the details.</div>
+      </div>
+      <div class="about-step-card">
+        <div class="about-step-icon">🤝</div>
+        <div class="about-step-title">Meet on campus</div>
+        <div class="about-step-desc">Arrange a safe meetup somewhere on campus — the student union, a dorm lobby, or the library. Pay cash or Venmo, it's up to you.</div>
+      </div>
+      <div class="about-step-card">
+        <div class="about-step-icon">🏷️</div>
+        <div class="about-step-title">Sell your stuff</div>
+        <div class="about-step-desc">Create a free account, snap a photo, set your price, and your listing goes live instantly. No fees ever — you keep every dollar.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-faq">
+    <div class="about-section-title">Frequently asked questions</div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is it really free? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Yes — 100% free to list, free to browse, free forever. We don't charge fees, take a cut, or require a subscription. Ever.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Do I need a .edu email? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Nope! Any email works. We built it this way so parents can also help their kids buy and sell — moms are some of our best shoppers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I contact a seller? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Click any listing to open the detail page, then click "Contact Seller." Fill in your name, email, and a message — it gets sent straight to the seller's inbox. They reply directly to your email.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What can I sell? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Anything dorm-related — beds and frames, desks, chairs, storage, lamps, mini-fridges, rugs, decor, electronics, and more. No illegal items, weapons, or anything that violates our Terms of Service.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I pay? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Payment is between you and the seller — cash, Venmo, Zelle, whatever you both agree on. We don't process payments so there are no fees.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is it safe? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">We recommend always meeting in a public place on campus — the student union, a dorm lobby, or a library. Never meet somewhere private or off campus. Trust your instincts.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I remove my listing once it sells? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Log in, click "My Listings" in the nav, and delete your listing. Or open the listing detail page and click "Mark as Sold."</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">My school isn't listed — can I still use it? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Yes! All 50 states and hundreds of colleges are available. If you don't see your exact school, pick the closest one or email us at hello@dormyardsale.com and we'll add it right away.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I contact Dorm Yard Sale? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a">Email us anytime at <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a> — we're a small team and we actually read every email.</div>
+    </div>
+  </div>
+
+  <div class="about-cta">
+    <h2>Ready to declutter?</h2>
+    <p>List your first item in under 2 minutes. Free forever.</p>
+    <button class="btn-about-cta" onclick="closeAbout(); requireAuth()">🏷️ List an Item Free</button>
   </div>
 </div>
 
@@ -2301,11 +2486,33 @@ function showToast(msg) {
 
 async function showHome() {
   closeDetail();
+  closeAbout();
   activeState = null; activeCollege = null; activeCategory = null;
   renderStates(); renderCategories(); updateBreadcrumb();
   showLoading(true);
   await fetchListings();
   showLoading(false);
+}
+
+// ── ABOUT PAGE ────────────────────────────────────────────
+function showAbout() {
+  document.getElementById('aboutPage').classList.add('open');
+  document.getElementById('mainLayout').style.display = 'none';
+  document.getElementById('heroSection').style.display = 'none';
+  document.querySelector('.marquee-bar').style.display = 'none';
+  document.getElementById('detailPage').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+
+function closeAbout() {
+  document.getElementById('aboutPage').classList.remove('open');
+  document.getElementById('mainLayout').style.display = '';
+  document.getElementById('heroSection').style.display = '';
+  document.querySelector('.marquee-bar').style.display = '';
+}
+
+function toggleFaq(el) {
+  el.closest('.faq-item').classList.toggle('open');
 }
 
 // ── LEGAL ─────────────────────────────────────────────────
@@ -2409,6 +2616,8 @@ init();
   </div>
   <div style="font-size:0.8rem;color:var(--muted)">
     © 2025 Dorm Yard Sale · Free to list, free to browse, always.
+    <span style="margin:0 0.5rem">·</span>
+    <a href="#" onclick="showAbout();return false;" style="color:var(--muted);text-decoration:underline">How it Works</a>
     <span style="margin:0 0.5rem">·</span>
     <a href="#" onclick="openLegal('tos');return false;" style="color:var(--muted);text-decoration:underline">Terms of Service</a>
     <span style="margin:0 0.5rem">·</span>
