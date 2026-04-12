@@ -760,6 +760,56 @@
   }
   .btn-amazon:hover { background: #fff3e6; border-color: #c45500; }
 
+  .my-listing-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .my-listing-row:last-child { border-bottom: none; }
+  .my-listing-thumb {
+    width: 64px; height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--tag-bg);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .my-listing-info { flex: 1; min-width: 0; }
+  .my-listing-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .my-listing-meta { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .my-listing-price {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .btn-delete {
+    background: #fff0f0;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .btn-delete:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
@@ -1036,6 +1086,16 @@
 
 <div class="toast" id="toast">✅ Your item is live on Dorm Yard Sale!</div>
 
+<!-- MY LISTINGS MODAL -->
+<div class="modal-overlay" id="myListingsModal">
+  <div class="modal" style="max-width:640px">
+    <button class="modal-close" onclick="closeMyListings()">✕</button>
+    <h2>My Listings</h2>
+    <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem">Manage your posted items</p>
+    <div id="myListingsGrid"></div>
+  </div>
+</div>
+
 <!-- CONTACT MODAL -->
 <div class="modal-overlay" id="contactModal">
   <div class="modal" style="max-width:440px">
@@ -1291,7 +1351,55 @@ async function sendContactMessage() {
   else { showToast('❌ Failed to send — please try again'); }
 }
 
-// ── IMAGE UPLOAD ──────────────────────────────────────────
+// ── MY LISTINGS ───────────────────────────────────────────
+async function openMyListings() {
+  if (!currentUser) return;
+  document.getElementById('myListingsModal').classList.add('open');
+  const grid = document.getElementById('myListingsGrid');
+  grid.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">🌸 Loading…</div>`;
+  const { data, error } = await db.from('listings')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+  if (error || !data || data.length === 0) {
+    grid.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">
+      <div style="font-size:2rem;margin-bottom:0.5rem">🏷️</div>
+      <div>You haven't listed anything yet.</div>
+      <button class="btn-sell" style="margin:1rem auto 0;display:inline-flex" onclick="closeMyListings();openModal()">+ Post Your First Item</button>
+    </div>`;
+    return;
+  }
+  const catIcons = { "Beds & Frames":"🛏️","Desks & Chairs":"🪑","Storage":"📦","Lighting":"💡","Mini-Fridges":"🧊","Rugs & Décor":"🪴","Electronics":"💻","Other":"📎" };
+  grid.innerHTML = data.map(l => `
+    <div class="my-listing-row" id="myrow-${l.id}">
+      ${l.image_url
+        ? `<img class="my-listing-thumb" src="${l.image_url}" alt="${l.title}">`
+        : `<div class="my-listing-thumb">${catIcons[l.category] || '📦'}</div>`
+      }
+      <div class="my-listing-info">
+        <div class="my-listing-title">${l.title}</div>
+        <div class="my-listing-meta">${l.college} · ${l.state} · ${timeAgo(l.created_at)}</div>
+      </div>
+      <div class="my-listing-price">$${l.price}</div>
+      <button class="btn-delete" onclick="deleteListing('${l.id}')">Delete</button>
+    </div>
+  `).join('');
+}
+
+function closeMyListings() {
+  document.getElementById('myListingsModal').classList.remove('open');
+}
+
+async function deleteListing(id) {
+  if (!confirm('Delete this listing? This cannot be undone.')) return;
+  const { error } = await db.from('listings').delete().eq('id', id).eq('user_id', currentUser.id);
+  if (error) { showToast('❌ Could not delete listing'); return; }
+  document.getElementById(`myrow-${id}`)?.remove();
+  showToast('🗑️ Listing deleted');
+  await Promise.all([fetchStateCounts(), fetchHeroStats()]);
+  renderStates();
+  await fetchListings();
+}
 let selectedFiles = [];
 
 function handleImageSelect(event) {
@@ -1372,6 +1480,7 @@ function updateNavAuth() {
     nav.innerHTML = `
       <div class="nav-user">
         <div class="nav-avatar" title="${currentUser.email}">${initial}</div>
+        <button class="btn-signout" onclick="openMyListings()" style="border-color:var(--accent);color:var(--accent)">My Listings</button>
         <button class="btn-signout" onclick="handleSignout()">Sign out</button>
       </div>
       <button class="btn-nav btn-primary" onclick="openModal()">🏷️ List Item</button>
