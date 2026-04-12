@@ -726,6 +726,25 @@
   }
   .btn-contact:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
+  .btn-amazon {
+    display: block;
+    width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.45rem;
+    background: #fff8f0;
+    color: #c45500;
+    border: 1px solid #f5d9b8;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    text-decoration: none;
+  }
+  .btn-amazon:hover { background: #fff3e6; border-color: #c45500; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
@@ -741,7 +760,7 @@
 <!-- NAV -->
 <nav>
   <div class="logo" onclick="showHome()" style="font-family:inherit">
-    <img src="logo.png" alt="Dorm Yard Sale" style="height:36px;width:auto;display:block">
+    <img src="logo.png" alt="Dorm Yard Sale" style="height:48px;width:auto;display:block">
   </div>
   <div class="nav-actions" id="navActions">
     <button class="btn-nav btn-ghost" onclick="openAuth('login')">Log in</button>
@@ -1607,6 +1626,19 @@ function updateBreadcrumb() {
     `${currentListings.length} item${currentListings.length !== 1 ? 's' : ''} available${activeCategory ? ' · ' + activeCategory : ''}`;
 }
 
+// ── AMAZON AFFILIATE ─────────────────────────────────────
+const AFFILIATE_TAG = 'dormyardsale-20';
+const amazonLinks = {
+  "Beds & Frames":  `https://www.amazon.com/s?k=twin+xl+bed+frame+dorm&tag=${AFFILIATE_TAG}`,
+  "Desks & Chairs": `https://www.amazon.com/s?k=dorm+desk+chair&tag=${AFFILIATE_TAG}`,
+  "Storage":        `https://www.amazon.com/s?k=dorm+room+storage+organizer&tag=${AFFILIATE_TAG}`,
+  "Lighting":       `https://www.amazon.com/s?k=dorm+room+lighting+lamp&tag=${AFFILIATE_TAG}`,
+  "Mini-Fridges":   `https://www.amazon.com/s?k=mini+fridge+dorm+room&tag=${AFFILIATE_TAG}`,
+  "Rugs & Décor":   `https://www.amazon.com/s?k=dorm+room+decor+rug&tag=${AFFILIATE_TAG}`,
+  "Electronics":    `https://www.amazon.com/s?k=dorm+room+electronics&tag=${AFFILIATE_TAG}`,
+  "Other":          `https://www.amazon.com/s?k=dorm+room+essentials&tag=${AFFILIATE_TAG}`
+};
+
 // ── RENDER ────────────────────────────────────────────────
 function renderListings(listings) {
   const grid = document.getElementById('listingsGrid');
@@ -1639,6 +1671,10 @@ function renderListings(listings) {
           <span class="card-time">${timeAgo(l.created_at)}</span>
         </div>
         <button class="btn-contact" onclick="event.stopPropagation();openContact('${l.id}')">📬 Contact Seller</button>
+        ${amazonLinks[l.category] ? `
+        <a class="btn-amazon" href="${amazonLinks[l.category]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          🛒 Shop new on Amazon
+        </a>` : ''}
       </div>
     </div>
   `).join('');
