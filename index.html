@@ -970,6 +970,22 @@
     .detail-title { font-size: 1.5rem; }
   }
 
+  .btn-share {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .btn-share:hover { border-color: var(--accent); color: var(--accent); }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .main-layout { grid-template-columns: 1fr; }
@@ -1055,6 +1071,7 @@
       <div class="detail-actions">
         <button class="btn-contact-large" id="detailContactBtn">📬 Contact Seller</button>
         <div id="detailSoldBtn"></div>
+        <button class="btn-share" id="detailShareBtn" onclick="shareListing()">🔗 Share this Listing</button>
         <a class="btn-amazon-large" id="detailAmazonBtn" target="_blank" rel="noopener">🛒 Shop similar items new on Amazon</a>
       </div>
     </div>
@@ -2023,7 +2040,10 @@ function toggleFav(id, el) {
   else { favorites.add(id); el.textContent = '❤️'; showToast('❤️ Saved to favorites!'); }
 }
 
+let currentDetailId = null;
+
 function viewListing(id) {
+  currentDetailId = id;
   const l = currentListings.find(x => x.id === id);
   if (!l) return;
   const catIcons = { "Beds & Frames":"🛏️","Desks & Chairs":"🪑","Storage":"📦","Lighting":"💡","Mini-Fridges":"🧊","Rugs & Décor":"🪴","Electronics":"💻","Other":"📎" };
@@ -2216,7 +2236,7 @@ function openLegal(type) {
     We use cookies to keep you logged in. We do not use advertising or tracking cookies.</p>
 
     <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>6. Third-Party Services</strong><br>
-    We use Supabase for database and authentication, Resend for email delivery, and Netlify for hosting. Each has their own privacy policy. We participate in the Amazon Associates Program — Amazon may use cookies when you click affiliate links.</p>
+    We use Supabase for database and authentication, Resend for email delivery, and Cloudflare for hosting. Each has their own privacy policy. We participate in the Amazon Associates Program — Amazon may use cookies when you click affiliate links.</p>
 
     <p style="margin-bottom:1rem;font-size:0.9rem;line-height:1.7"><strong>7. Data Deletion</strong><br>
     You can delete your listings at any time from "My Listings." To delete your account and all associated data, email us at <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a></p>
@@ -2227,6 +2247,23 @@ function openLegal(type) {
 
   document.getElementById('legalContent').innerHTML = type === 'tos' ? tos : privacy;
   document.getElementById('legalModal').classList.add('open');
+}
+
+function shareListing() {
+  const l = currentListings.find(x => x.id === currentDetailId);
+  if (!l) return;
+  const url = `https://dormyardsale.com`;
+  const text = `Check out this listing on Dorm Yard Sale: ${l.title} — $${l.price} at ${l.college} 🏷️`;
+
+  if (navigator.share) {
+    navigator.share({ title: l.title, text, url })
+      .catch(e => console.log('Share cancelled'));
+  } else {
+    // Fallback — copy link to clipboard
+    navigator.clipboard.writeText(`${text}\n${url}`)
+      .then(() => showToast('📋 Link copied to clipboard!'))
+      .catch(() => showToast('📋 Share: ' + url));
+  }
 }
 
 // ── ENTER KEY ON SEARCH ───────────────────────────────────
