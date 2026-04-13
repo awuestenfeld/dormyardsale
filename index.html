@@ -1025,6 +1025,60 @@
     .detail-title { font-size: 1.5rem; }
     .detail-page { padding: 1rem; }
   }
+  .how-it-works {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .how-step {
+    text-align: center;
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+  }
+  .how-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .how-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+  .how-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .how-divider {
+    font-size: 1.2rem;
+    color: var(--border);
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+  .how-cta {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    padding: 0.6rem 1.4rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .how-cta:hover { background: #be5568; }
+  @media (max-width: 768px) {
+    .how-divider { display: none; }
+    .how-it-works { gap: 1.2rem; padding: 1.2rem 1rem; }
+    .how-step { min-width: 120px; }
+  }
+
   .star-btn {
     font-size: 2.2rem;
     cursor: pointer;
@@ -1306,6 +1360,28 @@
     <p>List your first item in under 2 minutes. Free forever.</p>
     <button class="btn-about-cta" onclick="closeAbout(); requireAuth()">🏷️ List an Item Free</button>
   </div>
+</div>
+
+<!-- HOW IT WORKS STRIP -->
+<div class="how-it-works" id="howItWorksStrip">
+  <div class="how-step">
+    <div class="how-icon">📸</div>
+    <div class="how-title">Snap a photo</div>
+    <div class="how-desc">Take a quick pic of your item and write a short description</div>
+  </div>
+  <div class="how-divider">→</div>
+  <div class="how-step">
+    <div class="how-icon">🏷️</div>
+    <div class="how-title">Set your price</div>
+    <div class="how-desc">List for free in under 2 minutes — no fees, ever</div>
+  </div>
+  <div class="how-divider">→</div>
+  <div class="how-step">
+    <div class="how-icon">💰</div>
+    <div class="how-title">Get paid</div>
+    <div class="how-desc">A buyer contacts you, meet on campus, and keep every dollar</div>
+  </div>
+  <button class="how-cta" onclick="requireAuth()">🏷️ List an Item Free</button>
 </div>
 
 <!-- MAIN -->
@@ -2470,6 +2546,7 @@ async function viewListing(id) {
   document.getElementById('mainLayout').style.display = 'none';
   document.getElementById('heroSection').style.display = 'none';
   document.querySelector('.marquee-bar').style.display = 'none';
+  document.getElementById('howItWorksStrip').style.display = 'none';
   window.scrollTo(0, 0);
 }
 
@@ -2478,6 +2555,7 @@ function closeDetail() {
   document.getElementById('mainLayout').style.display = '';
   document.getElementById('heroSection').style.display = '';
   document.querySelector('.marquee-bar').style.display = '';
+  document.getElementById('howItWorksStrip').style.display = '';
 }
 
 async function markSold(id) {
@@ -2623,6 +2701,7 @@ function showAbout() {
   document.getElementById('mainLayout').style.display = 'none';
   document.getElementById('heroSection').style.display = 'none';
   document.querySelector('.marquee-bar').style.display = 'none';
+  document.getElementById('howItWorksStrip').style.display = 'none';
   document.getElementById('detailPage').classList.remove('open');
   window.scrollTo(0, 0);
 }
@@ -2632,6 +2711,7 @@ function closeAbout() {
   document.getElementById('mainLayout').style.display = '';
   document.getElementById('heroSection').style.display = '';
   document.querySelector('.marquee-bar').style.display = '';
+  document.getElementById('howItWorksStrip').style.display = '';
 }
 
 function toggleFaq(el) {
