@@ -948,6 +948,21 @@
     transition: all 0.2s;
   }
   .btn-sold:hover { background: #f0fdf4; color: #16a34a; border-color: #16a34a; }
+  .sold-badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    background: #16a34a;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+    z-index: 2;
+  }
+  .listing-card.is-sold { opacity: 0.7; }
   .btn-amazon-large {
     width: 100%;
     padding: 0.75rem;
@@ -1010,6 +1025,16 @@
     .detail-title { font-size: 1.5rem; }
     .detail-page { padding: 1rem; }
   }
+  .star-btn {
+    font-size: 2.2rem;
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.1s;
+    user-select: none;
+  }
+  .star-btn.active { color: #f59e0b; }
+  .star-rating-display { color: #f59e0b; font-size: 0.9rem; }
+
   @media (max-width: 400px) {
     .listings-grid { grid-template-columns: 1fr; }
   }
@@ -1190,6 +1215,7 @@
       <div class="detail-actions">
         <button class="btn-contact-large" id="detailContactBtn">📬 Contact Seller</button>
         <div id="detailSoldBtn"></div>
+        <div id="detailRatingBtn"></div>
         <button class="btn-share" id="detailShareBtn" onclick="shareListing()">🔗 Share this Listing</button>
         <a class="btn-amazon-large" id="detailAmazonBtn" target="_blank" rel="noopener">🛒 Shop similar items new on Amazon</a>
       </div>
@@ -1772,6 +1798,10 @@ function openContact(id) {
   contactListingId = id;
   const l = currentListings.find(x => x.id === id);
   document.getElementById('contactListingTitle').textContent = l ? `"${l.title}"` : '';
+  // Pre-fill email from logged in user
+  if (currentUser.email) {
+    document.getElementById('buyerEmail').value = currentUser.email;
+  }
   document.getElementById('contactModal').classList.add('open');
 }
 
@@ -1793,6 +1823,16 @@ async function sendContactMessage() {
 
   const btn = document.querySelector('#contactModal .btn-submit');
   btn.textContent = 'Sending…'; btn.disabled = true;
+
+  // Save contact record to DB
+  if (currentUser) {
+    await db.from('contacts').insert({
+      listing_id: contactListingId,
+      seller_id: listing.user_id,
+      buyer_id: currentUser.id,
+      buyer_email: buyerEmail
+    });
+  }
 
   const res = await fetch('/functions/contact', {
     method: 'POST',
@@ -1837,7 +1877,7 @@ async function openMyListings() {
         : `<div class="my-listing-thumb">${catIcons[l.category] || '📦'}</div>`
       }
       <div class="my-listing-info">
-        <div class="my-listing-title">${l.title}</div>
+        <div class="my-listing-title">${l.title} ${l.sold ? '<span style="background:#dcfce7;color:#16a34a;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:100px;margin-left:0.3rem">SOLD</span>' : ''}</div>
         <div class="my-listing-meta">${l.college} · ${l.state} · ${timeAgo(l.created_at)}</div>
       </div>
       <div class="my-listing-price">$${l.price}</div>
@@ -2299,7 +2339,8 @@ function renderListings(listings) {
   }
   const catIcons = { "Beds & Frames":"🛏️","Desks & Chairs":"🪑","Storage":"📦","Lighting":"💡","Mini-Fridges":"🧊","Rugs & Décor":"🪴","Electronics":"💻","Other":"📎" };
   grid.innerHTML = listings.map(l => `
-    <div class="listing-card" onclick="viewListing('${l.id}')">
+    <div class="listing-card${l.sold ? ' is-sold' : ''}" onclick="viewListing('${l.id}')">
+      ${l.sold ? `<div class="sold-badge">Sold</div>` : ''}
       ${l.image_url
         ? `<img class="card-img" src="${l.image_url}" alt="${l.title}">`
         : `<div class="card-img-placeholder" style="background:${colorFor(l.category)}">${catIcons[l.category] || '📦'}</div>`
@@ -2353,7 +2394,7 @@ function toggleFav(id, el) {
 
 let currentDetailId = null;
 
-function viewListing(id) {
+async function viewListing(id) {
   currentDetailId = id;
   const l = currentListings.find(x => x.id === id);
   if (!l) return;
@@ -2374,21 +2415,50 @@ function viewListing(id) {
 
   // Badges
   document.getElementById('detailBadges').innerHTML = `
+    ${l.sold ? `<span class="detail-badge" style="background:#dcfce7;color:#16a34a;font-weight:700">✅ Sold</span>` : ''}
     <span class="detail-badge">${conditionDot(l.condition)} ${l.condition || ''}</span>
     <span class="detail-badge">📦 ${l.category || ''}</span>
     <span class="detail-badge">🕐 ${timeAgo(l.created_at)}</span>
   `;
 
-  // Contact button
+  // Contact button — hide if sold
   const contactBtn = document.getElementById('detailContactBtn');
-  contactBtn.onclick = () => openContact(l.id);
+  if (l.sold) {
+    contactBtn.style.display = 'none';
+  } else {
+    contactBtn.style.display = '';
+    contactBtn.onclick = () => openContact(l.id);
+  }
 
-  // Sold button — only show to the listing owner
+  // Sold button — only show to the listing owner if not already sold
   const soldDiv = document.getElementById('detailSoldBtn');
-  if (currentUser && currentUser.id === l.user_id) {
+  if (currentUser && currentUser.id === l.user_id && !l.sold) {
     soldDiv.innerHTML = `<button class="btn-sold" onclick="markSold('${l.id}')">✅ Mark as Sold</button>`;
+  } else if (l.sold) {
+    soldDiv.innerHTML = `<div style="text-align:center;color:#16a34a;font-weight:600;padding:0.5rem">This item has been sold 🎉</div>`;
   } else {
     soldDiv.innerHTML = '';
+  }
+
+  // Rating button — show if sold and user was buyer or seller
+  const ratingDiv = document.getElementById('detailRatingBtn');
+  ratingDiv.innerHTML = '';
+  if (l.sold && currentUser) {
+    const isSeller = currentUser.id === l.user_id;
+    const role = isSeller ? 'seller' : 'buyer';
+    // Check if user already rated
+    const { data: existingRating } = await db.from('ratings')
+      .select('id')
+      .eq('listing_id', l.id)
+      .eq('rater_id', currentUser.id)
+      .single();
+    if (existingRating) {
+      ratingDiv.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:0.88rem;padding:0.5rem">⭐ You've already rated this transaction</div>`;
+    } else if (isSeller) {
+      ratingDiv.innerHTML = `<button class="btn-sold" style="background:#fffbeb;color:#b45309;border-color:#fde68a" onclick="openRating('${l.id}','${l.user_id}','seller')">⭐ Rate the Buyer</button>`;
+    } else {
+      ratingDiv.innerHTML = `<button class="btn-sold" style="background:#fffbeb;color:#b45309;border-color:#fde68a" onclick="openRating('${l.id}','${l.user_id}','buyer')">⭐ Rate the Seller</button>`;
+    }
   }
 
   // Amazon link
@@ -2411,14 +2481,17 @@ function closeDetail() {
 }
 
 async function markSold(id) {
-  if (!confirm('Mark this item as sold? It will be removed from listings.')) return;
-  const { error } = await db.from('listings').delete().eq('id', id).eq('user_id', currentUser.id);
+  if (!confirm('Mark this item as sold? It will show as sold but stay visible.')) return;
+  const { error } = await db.from('listings').update({ sold: true }).eq('id', id).eq('user_id', currentUser.id);
   if (error) { showToast('❌ Could not mark as sold'); return; }
   showToast('✅ Marked as sold!');
-  closeDetail();
+  // Update local listing
+  const l = currentListings.find(x => x.id === id);
+  if (l) l.sold = true;
+  // Refresh detail page to show sold state
+  viewListing(id);
   await Promise.all([fetchStateCounts(), fetchHeroStats()]);
   renderStates();
-  await fetchListings();
 }
 
 async function doSearch() {
@@ -2492,6 +2565,56 @@ async function showHome() {
   showLoading(true);
   await fetchListings();
   showLoading(false);
+}
+
+// ── RATINGS ───────────────────────────────────────────────
+let ratingListingId = null;
+let ratingRatedId = null;
+let ratingRole = null;
+let selectedStars = 0;
+
+function openRating(listingId, sellerId, role) {
+  ratingListingId = listingId;
+  ratingRatedId = sellerId;
+  ratingRole = role;
+  selectedStars = 0;
+  document.getElementById('ratingComment').value = '';
+  document.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
+  document.getElementById('ratingSubtitle').textContent = role === 'buyer'
+    ? 'How was your experience with the seller?'
+    : 'How was your experience with the buyer?';
+  document.getElementById('ratingModal').classList.add('open');
+}
+
+function closeRating() {
+  document.getElementById('ratingModal').classList.remove('open');
+  ratingListingId = null; ratingRatedId = null; ratingRole = null; selectedStars = 0;
+}
+
+function selectStar(n) {
+  selectedStars = n;
+  document.querySelectorAll('.star-btn').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.star) <= n);
+  });
+}
+
+async function submitRating() {
+  if (!selectedStars) { showToast('⚠️ Please select a star rating'); return; }
+  if (!currentUser) { requireAuth(); return; }
+  const comment = document.getElementById('ratingComment').value.trim();
+  const { error } = await db.from('ratings').insert({
+    listing_id: ratingListingId,
+    rater_id: currentUser.id,
+    rated_id: ratingRatedId,
+    stars: selectedStars,
+    comment: comment || null,
+    rater_role: ratingRole
+  });
+  if (error) { showToast('❌ Could not submit rating'); return; }
+  closeRating();
+  showToast('⭐ Rating submitted — thanks!');
+  // Refresh detail page
+  viewListing(ratingListingId);
 }
 
 // ── ABOUT PAGE ────────────────────────────────────────────
@@ -2629,6 +2752,27 @@ init();
     Dorm Yard Sale is a participant in the Amazon Services LLC Associates Program.
   </div>
 </footer>
+
+<!-- RATING MODAL -->
+<div class="modal-overlay" id="ratingModal">
+  <div class="modal" style="max-width:440px">
+    <button class="modal-close" onclick="closeRating()">✕</button>
+    <h2 style="font-family:'Playfair Display',serif;margin-bottom:0.25rem">Leave a Rating</h2>
+    <p id="ratingSubtitle" style="color:var(--muted);font-size:0.88rem;margin-bottom:1.2rem"></p>
+    <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:1.2rem" id="starPicker">
+      <span class="star-btn" data-star="1" onclick="selectStar(1)">★</span>
+      <span class="star-btn" data-star="2" onclick="selectStar(2)">★</span>
+      <span class="star-btn" data-star="3" onclick="selectStar(3)">★</span>
+      <span class="star-btn" data-star="4" onclick="selectStar(4)">★</span>
+      <span class="star-btn" data-star="5" onclick="selectStar(5)">★</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Comment (optional)</label>
+      <textarea class="form-textarea" id="ratingComment" placeholder="How did the transaction go?"></textarea>
+    </div>
+    <button class="btn-submit" onclick="submitRating()">⭐ Submit Rating</button>
+  </div>
+</div>
 
 <!-- LEGAL MODAL -->
 <div class="modal-overlay" id="legalModal">
