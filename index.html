@@ -1347,11 +1347,11 @@
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">My school isn't listed — can I still use it? <span class="faq-chevron">▼</span></div>
-      <div class="faq-a">Yes! All 50 states and hundreds of colleges are available. If you don't see your exact school, pick the closest one or email us at hello@dormyardsale.com and we'll add it right away.</div>
+      <div class="faq-a">Yes! All 50 states and hundreds of colleges are available. If you don't see your exact school, pick the closest one or email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4e262b2222210e2a213c23372f3c2a3d2f222b602d2123">[email&#160;protected]</a> and we'll add it right away.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">How do I contact Dorm Yard Sale? <span class="faq-chevron">▼</span></div>
-      <div class="faq-a">Email us anytime at <a href="mailto:hello@dormyardsale.com" style="color:var(--accent)">hello@dormyardsale.com</a> — we're a small team and we actually read every email.</div>
+      <div class="faq-a">Email us anytime at <a href="/cdn-cgi/l/email-protection#c3aba6afafac83a7acb1aebaa2b1a7b0a2afa6eda0acae" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="264e434a4a49664249544b5f47544255474a430845494b">[email&#160;protected]</span></a> — we're a small team and we actually read every email.</div>
     </div>
   </div>
 
@@ -1624,7 +1624,7 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 // ── SUPABASE ──────────────────────────────────────────────
 const SUPABASE_URL = 'https://htmnblyjzlsdzogthshp.supabase.co';
@@ -2212,7 +2212,7 @@ async function submitListing() {
   ['sellTitle','sellPrice','sellOriginal','sellDesc'].forEach(id => document.getElementById(id).value = '');
 
   // Notify admin of new listing (fire and forget)
-  fetch('/functions/new-listing', {
+  fetch('/new-listing', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -2873,7 +2873,7 @@ init();
     <span style="margin:0 0.5rem">·</span>
     <a href="#" onclick="openLegal('privacy');return false;" style="color:var(--muted);text-decoration:underline">Privacy Policy</a>
     <span style="margin:0 0.5rem">·</span>
-    <a href="mailto:hello@dormyardsale.com" style="color:var(--muted);text-decoration:underline">Contact Us</a>
+    <a href="/cdn-cgi/l/email-protection#650d0009090a25010a17081c041701160409004b060a08" style="color:var(--muted);text-decoration:underline">Contact Us</a>
   </div>
   <div style="font-size:0.72rem;color:var(--border);margin-top:0.5rem">
     Dorm Yard Sale is a participant in the Amazon Services LLC Associates Program.
@@ -2948,17 +2948,4 @@ init();
       <label class="form-label">Comment (optional)</label>
       <textarea class="form-textarea" id="ratingComment" placeholder="How did the transaction go?"></textarea>
     </div>
-    <button class="btn-submit" onclick="submitRating()">⭐ Submit Rating</button>
-  </div>
-</div>
-
-<!-- LEGAL MODAL -->
-<div class="modal-overlay" id="legalModal">
-  <div class="modal" style="max-width:640px;max-height:80vh;overflow-y:auto">
-    <button class="modal-close" onclick="document.getElementById('legalModal').classList.remove('open')">✕</button>
-    <div id="legalContent"></div>
-  </div>
-</div>
-
-</body>
-</html>
+    <butt
