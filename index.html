@@ -1957,6 +1957,7 @@ async function openMyListings() {
         <div class="my-listing-meta">${l.college} · ${l.state} · ${timeAgo(l.created_at)}</div>
       </div>
       <div class="my-listing-price">$${l.price}</div>
+      <button class="btn-delete" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd;margin-right:0.3rem" onclick="editListing('${l.id}')">Edit</button>
       <button class="btn-delete" onclick="deleteListing('${l.id}')">Delete</button>
     </div>
   `).join('');
@@ -2645,6 +2646,52 @@ async function showHome() {
   showLoading(false);
 }
 
+// ── EDIT LISTING ──────────────────────────────────────────
+async function editListing(id) {
+  const { data, error } = await db.from('listings').select('*').eq('id', id).single();
+  if (error || !data) { showToast('❌ Could not load listing'); return; }
+  document.getElementById('editListingId').value = id;
+  document.getElementById('editTitle').value = data.title || '';
+  document.getElementById('editCategory').value = data.category || 'Other';
+  document.getElementById('editCondition').value = data.condition || 'Good';
+  document.getElementById('editPrice').value = data.price || '';
+  document.getElementById('editOriginal').value = data.original_price || '';
+  document.getElementById('editDesc').value = data.description || '';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+async function saveEdit() {
+  const id = document.getElementById('editListingId').value;
+  const title = document.getElementById('editTitle').value.trim();
+  const price = document.getElementById('editPrice').value;
+  const original_price = document.getElementById('editOriginal').value || null;
+  const category = document.getElementById('editCategory').value;
+  const condition = document.getElementById('editCondition').value;
+  const description = document.getElementById('editDesc').value.trim();
+
+  if (!title || !price) { showToast('⚠️ Title and price are required'); return; }
+
+  const btn = document.querySelector('#editModal .btn-submit');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+
+  const { error } = await db.from('listings')
+    .update({ title, price: parseFloat(price), original_price: original_price ? parseFloat(original_price) : null, category, condition, description })
+    .eq('id', id)
+    .eq('user_id', currentUser.id);
+
+  btn.textContent = '💾 Save Changes'; btn.disabled = false;
+
+  if (error) { showToast('❌ Could not save changes'); return; }
+  closeEdit();
+  showToast('✅ Listing updated!');
+  await fetchListings();
+  openMyListings();
+}
+
 // ── RATINGS ───────────────────────────────────────────────
 let ratingListingId = null;
 let ratingRatedId = null;
@@ -2832,6 +2879,57 @@ init();
     Dorm Yard Sale is a participant in the Amazon Services LLC Associates Program.
   </div>
 </footer>
+
+<!-- EDIT LISTING MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" style="max-width:540px;max-height:90vh;overflow-y:auto">
+    <button class="modal-close" onclick="closeEdit()">✕</button>
+    <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.2rem">Edit Listing</h2>
+    <input type="hidden" id="editListingId">
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input class="form-input" type="text" id="editTitle" placeholder="e.g. IKEA Hemnes Loft Bed">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="editCategory">
+          <option>Beds & Frames</option>
+          <option>Desks & Chairs</option>
+          <option>Storage</option>
+          <option>Lighting</option>
+          <option>Mini-Fridges</option>
+          <option>Rugs & Décor</option>
+          <option>Electronics</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Condition</label>
+        <select class="form-select" id="editCondition">
+          <option>Like New</option>
+          <option>Good</option>
+          <option>Fair</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Your Price ($)</label>
+        <input class="form-input" type="number" placeholder="50" id="editPrice">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Original Price ($) <span style="color:var(--muted);font-weight:400">optional</span></label>
+        <input class="form-input" type="number" placeholder="120" id="editOriginal">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="editDesc" placeholder="Describe the item, any wear, dimensions, etc."></textarea>
+    </div>
+    <button class="btn-submit" onclick="saveEdit()">💾 Save Changes</button>
+  </div>
+</div>
 
 <!-- RATING MODAL -->
 <div class="modal-overlay" id="ratingModal">
